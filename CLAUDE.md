@@ -17,3 +17,7 @@ This studio prepares one payment reminder per customer each week for ITM, an IT 
 - Never email a real customer from this studio. Write drafts only.
 - Never put real customer names or email addresses in the repo. Use the made-up practice data, with `.example` addresses.
 - Ask me before deleting anything.
+
+## Voice
+
+@brand/voice.md
