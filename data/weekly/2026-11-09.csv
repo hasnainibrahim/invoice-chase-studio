@@ -1,0 +1,21 @@
+customer,invoice_no,invoice_date,amount_pkr,contact_name,email,days_outstanding
+Crescent Health Services,KITM20305,2026-10-21,1168000,Imran Qureshi,imran.qureshi@crescenthealth.example,19
+Indus Continental Traders,KITM20157,2026-09-04,238000,Bilal Ahmed,accounts@indusctraders.example,66
+Skyline Aero Consultants,KITM20015,2026-07-17,8000,Sana Malik,sana.malik@skylineaero.example,115
+Global Learning Council,KITM20232,2026-10-01,94400,Ayesha Raza,procurement@globallearning.example,39
+QuickRide Logistics,KITM20329,2026-10-29,18900,Usman Tariq,finance@quickride.example,11
+Northwind Supply Chain,KITM20298,2026-10-19,76300,Faraz Hussain,faraz.h@northwindsc.example,21
+Meridian Freight Pvt Ltd,KITM20201,2026-09-21,2700,Nadia Khan,payables@meridianfreight.example,49
+Bytecraft Software House,KITM20101,2026-08-12,6900,Kamran Javed,kamran.javed@bytecraft.example,89
+Pinnacle Technologies,KITM20299,2026-10-19,11500,Rehan Siddiqui,rehan@pinnacletech.example,21
+Falconridge Security Systems,KITM18864,2025-06-25,309160,Zainab Ali,accounts@falconridge.example,502
+CodeNest Solutions,KITM20260,2026-10-07,2500,Hamza Sheikh,hamza.sheikh@codenest.example,33
+Silverline Enterprises,KITM19624,2026-02-09,312000,Mustafa Lakhani,mustafa@silverline.example,273
+Greenleaf Publishers,KITM20320,2026-10-27,11800,Asif Mirza,asif.mirza@greenleafpub.example,13
+Valley Woollen Mills,KITM20324,2026-10-28,82500,Farah Naz,farah.naz@valleywoollen.example,12
+City Care Hospital,KITM20307,2026-10-22,385000,Dr. Salman Yusuf,it.procurement@citycare.example,18
+Sunrise Leather Works,KITM19536,2025-12-31,8520,Adnan Shah,adnan.shah@sunriseleather.example,313
+Helix Pharma Pvt Ltd,KITM19028,2025-08-12,7000,Mehwish Anwar,mehwish.anwar@helixpharma.example,454
+AirBridge Cargo Services,KITM19939,2026-06-09,8900,Tariq Mehmood,tariq.m@airbridgecargo.example,153
+Civic Futures Foundation,KITM20314,2026-10-23,246500,Hina Baig,hina.baig@civicfutures.example,17
+Oceanic Consolidators,KITM20277,2026-10-12,27600,Junaid Farooq,junaid@oceanicconsol.example,28
