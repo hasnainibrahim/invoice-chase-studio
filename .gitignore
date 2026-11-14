@@ -1,0 +1,12 @@
+# Personal Claude Code settings
+.claude/settings.local.json
+
+# Installed packages
+node_modules/
+
+# Real customer sheets: never commit these
+data/real/
+
+# System files
+.DS_Store
+Thumbs.db
