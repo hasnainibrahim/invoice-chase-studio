@@ -9,5 +9,21 @@
   },
   "enabledPlugins": {
     "small-business@knowledge-work-plugins": true
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__resend__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/guard-resend.mjs\"",
+            "timeout": 15,
+            "onFailure": "block",
+            "statusMessage": "Checking Resend recipients..."
+          }
+        ]
+      }
+    ]
   }
 }

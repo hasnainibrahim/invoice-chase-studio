@@ -14,7 +14,7 @@ This studio prepares one payment reminder per customer each week for ITM, an IT 
 
 - Write in plain English. Use short sentences and everyday words.
 - All amounts are in Pakistani rupees (PKR). Copy every amount exactly from the sheet. Never round an amount, and never work one out by hand.
-- Never email a real customer from this studio. Write drafts only. Sending through Resend is allowed only to Resend's test addresses (ending in `@resend.dev`) or to my own email address. A guard will enforce this in the next step.
+- Never email a real customer from this studio. Write drafts only. Sending through Resend is allowed only to Resend's test addresses (ending in `@resend.dev`) or to my own email address. The guard in `scripts/guard-resend.mjs` enforces this before every Resend call. My address is set as `CHASE_OWNER_EMAIL` in `.claude/settings.local.json`, which git ignores.
 - Never put real customer names or email addresses in the repo. Use the made-up practice data, with `.example` addresses.
 - Ask me before deleting anything.
 
