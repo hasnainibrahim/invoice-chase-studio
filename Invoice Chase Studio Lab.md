@@ -2,6 +2,8 @@ FDE-102 · Email Studio Lab · My idea
 
 # Invoice Chase Studio
 
+*Adapted from the Panaversity FDE-102 Email Studio Lab. The studio, data and content are my own.*
+
 You will set up an accounts-receivable studio and run it with Claude Code. Every Monday the sheet of unpaid invoices is updated. Claude groups the invoices by customer, writes one polite statement email per customer, checks every rupee against the sheet, and queues the reminders for the owner to approve before Resend sends them. Along the way you use every Claude Code feature on the CCAR-F exam.
 
 15 stepsabout 30–60 min eachmade-up customers onlynothing sends without you
