@@ -1,0 +1,20 @@
+customer,invoice_no,invoice_date,amount_pkr,contact_name,email,days_outstanding
+Crescent Health Services,KITM20305,2026-10-21,1168000,Imran Qureshi,imran.qureshi@crescenthealth.example,26
+Skyline Aero Consultants,KITM20015,2026-07-17,8000,Sana Malik,sana.malik@skylineaero.example,122
+Northwind Supply Chain,KITM20298,2026-10-19,76300,Faraz Hussain,faraz.h@northwindsc.example,28
+Meridian Freight Pvt Ltd,KITM20201,2026-09-21,2700,Nadia Khan,payables@meridianfreight.example,56
+Bytecraft Software House,KITM20101,2026-08-12,6900,Kamran Javed,kamran.javed@bytecraft.example,96
+Pinnacle Technologies,KITM20299,2026-10-19,11500,Rehan Siddiqui,rehan@pinnacletech.example,28
+Falconridge Security Systems,KITM18864,2025-06-25,309160,Zainab Ali,accounts@falconridge.example,509
+CodeNest Solutions,KITM20260,2026-10-07,2500,Hamza Sheikh,hamza.sheikh@codenest.example,40
+Silverline Enterprises,KITM19624,2026-02-09,312000,Mustafa Lakhani,mustafa@silverline.example,280
+Greenleaf Publishers,KITM20320,2026-10-27,11800,Asif Mirza,asif.mirza@greenleafpub.example,20
+Valley Woollen Mills,KITM20324,2026-10-28,82500,Farah Naz,farah.naz@valleywoollen.example,19
+City Care Hospital,KITM20307,2026-10-22,385000,Dr. Salman Yusuf,accounts@citycare.example,25
+Sunrise Leather Works,KITM19536,2025-12-31,8520,Adnan Shah,adnan.shah@sunriseleather.example,320
+Helix Pharma Pvt Ltd,KITM19028,2025-08-12,7000,Mehwish Anwar,mehwish.anwar@helixpharma.example,461
+AirBridge Cargo Services,KITM19939,2026-06-09,8900,Tariq Mehmood,tariq.m@airbridgecargo.example,160
+Civic Futures Foundation,KITM20314,2026-10-23,246500,Hina Baig,hina.baig@civicfutures.example,24
+Oceanic Consolidators,KITM20277,2026-10-12,27600,Junaid Farooq,junaid@oceanicconsol.example,35
+Crescent Health Services,KITM20401,2026-11-11,45000,Imran Qureshi,imran.qureshi@crescenthealth.example,5
+Crescent Health Services,KITM20402,2026-11-12,12500,Imran Qureshi,imran.qureshi@crescenthealth.example,4
