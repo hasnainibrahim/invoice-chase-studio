@@ -1,14 +1,14 @@
 To: Sana Malik <sana.malik@skylineaero.example>
 Subject: Outstanding balance with ITM: PKR 8,000
-Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Madam,
 
-According to our records on Sunday 15 November 2026, the account of Skyline Aero Consultants has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of Skyline Aero Consultants has the outstanding balance shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM20015 | 17 Jul 2026 | 8,000 | 121 |
+| KITM20015 | 17 Jul 2026 | 8,000 | 129 |
 | **Total** | | **8,000** | |
 
 Kindly arrange payment of the outstanding balance of PKR 8,000. Please let us know if you need a copy of the invoice.

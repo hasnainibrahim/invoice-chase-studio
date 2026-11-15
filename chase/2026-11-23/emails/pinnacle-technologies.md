@@ -1,17 +1,17 @@
 To: Rehan Siddiqui <rehan@pinnacletech.example>
 Subject: Outstanding balance with ITM: PKR 11,500
-Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Rehan,
 
-Please find below a statement of the open invoices on the account of Pinnacle Technologies, according to our records on Sunday 15 November 2026.
+According to our records on Monday 23 November 2026, the account of Pinnacle Technologies has the outstanding balance shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM20299 | 19 Oct 2026 | 11,500 | 27 |
+| KITM20299 | 19 Oct 2026 | 11,500 | 35 |
 | **Total** | | **11,500** | |
 
-Kindly arrange payment of the outstanding balance of PKR 11,500 by its due date.
+Kindly arrange payment of the outstanding balance of PKR 11,500.
 
 Payment details: Bank: Example Bank, Account 0000-0000000
 

@@ -1,14 +1,14 @@
 To: Hamza Sheikh <hamza.sheikh@codenest.example>
 Subject: Outstanding balance with ITM: PKR 2,500
-Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Hamza,
 
-According to our records on Sunday 15 November 2026, the account of CodeNest Solutions has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of CodeNest Solutions has the outstanding balance shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM20260 | 7 Oct 2026 | 2,500 | 39 |
+| KITM20260 | 7 Oct 2026 | 2,500 | 47 |
 | **Total** | | **2,500** | |
 
 Kindly arrange payment of the outstanding balance of PKR 2,500.

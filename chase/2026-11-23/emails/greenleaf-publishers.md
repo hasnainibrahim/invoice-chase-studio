@@ -1,14 +1,14 @@
 To: Asif Mirza <asif.mirza@greenleafpub.example>
 Subject: Outstanding balance with ITM: PKR 11,800
-Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Asif,
 
-Please find below a statement of the open invoices on the account of Greenleaf Publishers, according to our records on Sunday 15 November 2026.
+Please find below a statement of the open invoices on the account of Greenleaf Publishers, according to our records on Monday 23 November 2026.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM20320 | 27 Oct 2026 | 11,800 | 19 |
+| KITM20320 | 27 Oct 2026 | 11,800 | 27 |
 | **Total** | | **11,800** | |
 
 Kindly arrange payment of the outstanding balance of PKR 11,800 by its due date.
