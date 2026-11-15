@@ -8,7 +8,7 @@ According to our records on Monday 23 November 2026, the account of Crescent Hea
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM20305 | 21 Oct 2026 | 1,186,000 | 33 |
+| KITM20305 | 21 Oct 2026 | 1,168,000 | 33 |
 | KITM20401 | 11 Nov 2026 | 45,000 | 12 |
 | KITM20402 | 12 Nov 2026 | 12,500 | 11 |
 | KITM20157 | 4 Sep 2026 | 238,000 | 80 |

@@ -1,18 +1,34 @@
 {
+  "folder": "chase/test-bad",
+  "csv": "data/weekly/2026-11-23.csv",
   "findings": [
     {
-      "file": "chase/2026-11-23/emails/crescent-health-services.md",
-      "line": 7,
-      "severity": "medium",
-      "problem": "The opening line doesn't follow the 31-to-90-day / over-90-day wording in .claude/rules/reminders.md. The rule says: \"According to our records on {{as_of}}, the account of {{customer}} has {{invoice_count}} open {{invoices_word}} with an outstanding balance of PKR {{total}}, shown below.\" The draft says \"...has the outstanding balance shown below.\", which leaves out the number of invoices and the PKR total. The same problem is in all 15 drafts whose oldest invoice is over 30 days: airbridge-cargo-services, bytecraft-software-house, city-care-hospital, civic-futures-foundation, codenest-solutions, crescent-health-services, falconridge-security-systems, helix-pharma-pvt-ltd, meridian-freight-pvt-ltd, northwind-supply-chain, oceanic-consolidators, pinnacle-technologies, silverline-enterprises, skyline-aero-consultants, sunrise-leather-works. The two statement drafts (greenleaf-publishers, valley-woollen-mills) are correct.",
-      "fix": "Rewrite line 7 in each of the 15 files to the rule's wording, for example Crescent: \"According to our records on Monday 23 November 2026, the account of Crescent Health Services has 3 open invoices with an outstanding balance of PKR 1,225,500, shown below.\" The 14 single-invoice drafts get: \"...has 1 open invoice with an outstanding balance of PKR {{total}}, shown below.\" Copy each total from the Total row."
+      "file": "chase/test-bad/emails/01-bad.md",
+      "line": 14,
+      "severity": "high",
+      "problem": "Still not fixed. KITM20157 (4 Sep 2026, 238,000, 80 days) is not in the 2026-11-23 sheet. The sheet lists only three open invoices for Crescent Health Services: KITM20305, KITM20401 and KITM20402.",
+      "fix": "Delete the KITM20157 row."
     },
     {
-      "file": "chase/2026-11-23/emails/airbridge-cargo-services.md",
-      "line": 3,
+      "file": "chase/test-bad/emails/01-bad.md",
+      "line": 15,
+      "severity": "high",
+      "problem": "Still not fixed. The Total row does not match the rows above it. Now that line 11 is correct, the four rows add up to 1,463,500, but the total says 1,225,500. The figure 1,225,500 is the correct sheet total (1,168,000 + 45,000 + 12,500). The extra row on line 14 is what breaks it.",
+      "fix": "Remove line 14. The three rows left will add up to 1,225,500, which matches the total, the subject line and the request line. Check the sum with a command."
+    },
+    {
+      "file": "chase/test-bad/emails/01-bad.md",
+      "line": 19,
+      "severity": "high",
+      "problem": "Still not fixed. \"Pay within 24 hours or we will take legal action.\" is a legal threat with a deadline. Both the rules and the voice guide forbid any mention of legal action, and the line is not polite.",
+      "fix": "Delete the line. The request on line 17 is enough."
+    },
+    {
+      "file": "chase/test-bad/emails/01-bad.md",
+      "line": 7,
       "severity": "low",
-      "problem": "The Preview line says \"Your open invoices\" (plural), but 16 of the 17 customers have only one open invoice. Only Crescent Health Services has more than one. The preheader is wrong for every other draft.",
-      "fix": "In the 16 single-invoice drafts, change the Preview to \"Your open invoice with ITM as of Monday 23 November 2026, and the outstanding balance.\" Keep the plural only in crescent-health-services.md."
+      "problem": "Still not fixed. The oldest invoice is 33 days old, so the 31 to 90 day opening applies. That opening must give the number of open invoices and the outstanding balance. This line leaves out both.",
+      "fix": "Use: \"According to our records on Monday 23 November 2026, the account of Crescent Health Services has 3 open invoices with an outstanding balance of PKR 1,225,500, shown below.\""
     }
   ]
 }

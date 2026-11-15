@@ -4,7 +4,9 @@
 // Example: node scripts/review.mjs chase/2026-11-23 data/weekly/2026-11-23.csv
 //
 // Runs `claude -p` headless with read-only tools (Read, Glob, Grep).
-// Saves the findings to review/findings.json and prints a one-line summary.
+// Saves the folder, CSV and findings to review/findings.json and prints a one-line summary.
+// If review/findings.json is from the same folder, its findings go into the
+// prompt so the new review reports only problems that are new or still not fixed.
 // Exit code: 0 when there is no high-severity finding, 1 when there is one,
 // 2 when the review itself could not run.
 
@@ -25,10 +27,29 @@ for (const p of [folder, csv]) {
 
 const schema = readFileSync('review/findings.schema.json', 'utf8');
 
-const prompt =
+let prompt =
   `Review every reminder in ${folder} against ${csv}, brand/voice.md and .claude/rules/reminders.md. ` +
   `An invoice number, date or amount that doesn't match the CSV, a missing invoice, an invoice that is not in the CSV, ` +
   `a wrong total or a wrong address is high severity. Report only real problems.`;
+
+// If the last review was of the same folder, pass its findings along so this
+// review reports only what is new or still not fixed.
+const FINDINGS = 'review/findings.json';
+const sameFolder = (a, b) => a.replace(/[\\/]+$/, '').replace(/\\/g, '/') === b.replace(/[\\/]+$/, '').replace(/\\/g, '/');
+if (existsSync(FINDINGS)) {
+  try {
+    const last = JSON.parse(readFileSync(FINDINGS, 'utf8'));
+    if (typeof last.folder === 'string' && sameFolder(last.folder, folder) && Array.isArray(last.findings)) {
+      prompt +=
+        `\n\nThese are findings from the last review. Report only problems that are new or still not fixed. ` +
+        `Don't repeat ones that have been fixed.\n\n` +
+        JSON.stringify(last.findings, null, 2);
+      console.log(`Including ${last.findings.length} findings from the last review of ${folder}.`);
+    }
+  } catch {
+    console.log(`Could not read ${FINDINGS}; reviewing without earlier findings.`);
+  }
+}
 
 const run = spawnSync(
   'claude',
@@ -61,7 +82,8 @@ if (!structured || !Array.isArray(structured.findings)) {
 }
 
 mkdirSync('review', { recursive: true });
-writeFileSync('review/findings.json', JSON.stringify(structured, null, 2) + '\n');
+const saved = { folder: folder.replace(/[\\/]+$/, '').replace(/\\/g, '/'), csv, findings: structured.findings };
+writeFileSync(FINDINGS, JSON.stringify(saved, null, 2) + '\n');
 
 const count = (s) => structured.findings.filter((f) => f.severity === s).length;
 const high = count('high');
