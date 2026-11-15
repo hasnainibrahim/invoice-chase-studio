@@ -2,7 +2,7 @@ To: Farah Naz <farah.naz@valleywoollen.example>
 Subject: Outstanding balance with ITM: PKR 82,500
 Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outstanding balance.
 
-Dear Mr. Farah,
+Dear Madam Farah,
 
 This is a reminder of the outstanding balance on the account of Valley Woollen Mills as of Monday 9 November 2026. The open invoices are listed below.
 
