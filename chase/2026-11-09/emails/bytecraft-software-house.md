@@ -13,7 +13,7 @@ This is a reminder of the outstanding balance on the account of Bytecraft Softwa
 
 Kindly arrange payment of the outstanding balance of PKR 6,900.
 
-Payment details: {{payment_details}}
+Payment details: Bank: Example Bank, Account 0000-0000000
 Remittance advice or questions: accounts@itm.example
 
 Should you have any query, please call or email us.

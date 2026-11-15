@@ -38,7 +38,10 @@ Greet the contact by title and first name: `Dear {{title}} {{first_name}},`
 
 ## How to pay or ask a question
 
-Give one way to pay or ask a question: `{{payment_details}}` and `accounts@itm.example`.
+Give one way to pay or ask a question:
+
+- `Payment details: Bank: Example Bank, Account 0000-0000000`. This is practice text. Real bank details go in only at send time, never in the repo.
+- `Remittance advice or questions: accounts@itm.example`
 
 ## Never say
 
