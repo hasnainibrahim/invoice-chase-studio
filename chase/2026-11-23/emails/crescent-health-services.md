@@ -1,10 +1,10 @@
 To: Imran Qureshi <imran.qureshi@crescenthealth.example>
-Subject: Outstanding balance with ITM: PKR 1,225,500
+Subject: 3 open invoices with ITM: PKR 1,225,500 outstanding
 Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Imran,
 
-According to our records on Monday 23 November 2026, the account of Crescent Health Services has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of Crescent Health Services has 3 open invoices with an outstanding balance of PKR 1,225,500, shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|

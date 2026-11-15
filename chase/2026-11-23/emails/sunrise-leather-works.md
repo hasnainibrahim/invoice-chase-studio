@@ -1,10 +1,10 @@
 To: Adnan Shah <adnan.shah@sunriseleather.example>
-Subject: Outstanding balance with ITM: PKR 8,520
+Subject: 1 open invoice with ITM: PKR 8,520 outstanding
 Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Adnan,
 
-According to our records on Monday 23 November 2026, the account of Sunrise Leather Works has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of Sunrise Leather Works has 1 open invoice with an outstanding balance of PKR 8,520, shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|

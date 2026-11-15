@@ -1,5 +1,5 @@
 To: Farah Naz <farah.naz@valleywoollen.example>
-Subject: Outstanding balance with ITM: PKR 82,500
+Subject: 1 open invoice with ITM: PKR 82,500 outstanding
 Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Madam,

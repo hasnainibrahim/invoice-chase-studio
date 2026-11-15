@@ -1,10 +1,10 @@
 To: Mustafa Lakhani <mustafa@silverline.example>
-Subject: Outstanding balance with ITM: PKR 312,000
+Subject: 1 open invoice with ITM: PKR 312,000 outstanding
 Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Mustafa,
 
-According to our records on Monday 23 November 2026, the account of Silverline Enterprises has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of Silverline Enterprises has 1 open invoice with an outstanding balance of PKR 312,000, shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|

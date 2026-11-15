@@ -1,10 +1,10 @@
 To: Faraz Hussain <faraz.h@northwindsc.example>
-Subject: Outstanding balance with ITM: PKR 76,300
+Subject: 1 open invoice with ITM: PKR 76,300 outstanding
 Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Faraz,
 
-According to our records on Monday 23 November 2026, the account of Northwind Supply Chain has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of Northwind Supply Chain has 1 open invoice with an outstanding balance of PKR 76,300, shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|

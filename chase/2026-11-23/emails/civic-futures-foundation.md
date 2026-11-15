@@ -1,10 +1,10 @@
 To: Hina Baig <hina.baig@civicfutures.example>
-Subject: Outstanding balance with ITM: PKR 246,500
+Subject: 1 open invoice with ITM: PKR 246,500 outstanding
 Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Madam,
 
-According to our records on Monday 23 November 2026, the account of Civic Futures Foundation has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of Civic Futures Foundation has 1 open invoice with an outstanding balance of PKR 246,500, shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|

@@ -1,10 +1,10 @@
 To: Rehan Siddiqui <rehan@pinnacletech.example>
-Subject: Outstanding balance with ITM: PKR 11,500
+Subject: 1 open invoice with ITM: PKR 11,500 outstanding
 Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Rehan,
 
-According to our records on Monday 23 November 2026, the account of Pinnacle Technologies has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of Pinnacle Technologies has 1 open invoice with an outstanding balance of PKR 11,500, shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|

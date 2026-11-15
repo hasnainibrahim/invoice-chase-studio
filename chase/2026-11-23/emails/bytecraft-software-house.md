@@ -1,10 +1,10 @@
 To: Kamran Javed <kamran.javed@bytecraft.example>
-Subject: Outstanding balance with ITM: PKR 6,900
+Subject: 1 open invoice with ITM: PKR 6,900 outstanding
 Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Kamran,
 
-According to our records on Monday 23 November 2026, the account of Bytecraft Software House has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of Bytecraft Software House has 1 open invoice with an outstanding balance of PKR 6,900, shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|

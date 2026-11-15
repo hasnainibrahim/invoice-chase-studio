@@ -1,10 +1,10 @@
 To: Junaid Farooq <junaid@oceanicconsol.example>
-Subject: Outstanding balance with ITM: PKR 27,600
+Subject: 1 open invoice with ITM: PKR 27,600 outstanding
 Preview: Your open invoices with ITM as of Monday 23 November 2026, and the outstanding balance.
 
 Dear Mr. Junaid,
 
-According to our records on Monday 23 November 2026, the account of Oceanic Consolidators has the outstanding balance shown below.
+According to our records on Monday 23 November 2026, the account of Oceanic Consolidators has 1 open invoice with an outstanding balance of PKR 27,600, shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
