@@ -29,7 +29,7 @@ The `Preview:` line is the email's preheader. It is never pasted into the body. 
 Payment terms are 30 days, as confirmed by the accounts team. The sheet has no due dates, so the wording depends on how old each invoice is on the day the drafts are written. Name that day as the date of our records, for example "according to our records on Sunday 15 November 2026". Count Days outstanding from the invoice date to that day with a command, never by hand.
 
 - **Oldest invoice 30 days or less** (not yet due on 30-day terms): send it as a statement. Open with "Please find below a statement of the open invoices on the account of {{customer}}, according to our records on {{as_of}}." Ask: "Kindly arrange payment of the outstanding balance of PKR {{total}} by its due date."
-- **Oldest invoice 31 to 90 days:** open with "According to our records on {{as_of}}, the account of {{customer}} has the outstanding balance shown below." Ask: "Kindly arrange payment of the outstanding balance of PKR {{total}}."
+- **Oldest invoice 31 to 90 days:** open with "According to our records on {{as_of}}, the account of {{customer}} has {{invoice_count}} open {{invoices_word}} with an outstanding balance of PKR {{total}}, shown below." Ask: "Kindly arrange payment of the outstanding balance of PKR {{total}}."
 - **Oldest invoice over 90 days:** use the 31 to 90 day wording, then add "Please let us know if you need a copy of the invoice." (or "invoices" when there is more than one).
 
 ## Invoice table

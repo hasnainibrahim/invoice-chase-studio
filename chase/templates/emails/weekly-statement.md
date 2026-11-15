@@ -1,5 +1,5 @@
 To: {{contact}} <{{email}}>
-Subject: Outstanding balance with ITM: PKR {{total}}
+Subject: {{invoice_count}} open {{invoices_word}} with ITM: PKR {{total}} outstanding
 Preview: Your open invoices with ITM as of {{as_of}}, and the outstanding balance.
 
 Dear {{title}} {{first_name}},

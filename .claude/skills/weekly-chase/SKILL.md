@@ -57,6 +57,8 @@ For each customer in CUSTOMERS, write `chase/<date>/emails/<customer-slug>.md`. 
 - Fill the template:
   - `{{contact}}`, `{{email}}`, `{{customer}}`: from the script's customer line.
   - `{{total}}`: the customer's total from the script.
+  - `{{invoice_count}}`: the customer's invoice count from the script.
+  - `{{invoices_word}}`: "invoice" when the count is 1, "invoices" otherwise.
   - `{{as_of}}`: the long date from the script's "As of:" line, for example "Sunday 15 November 2026".
   - `{{invoice_rows}}`: one row per invoice: `| <invoice> | <date> | <amount> | <days> |`, copied from the script's invoice lines.
   - `{{opening}}` and `{{request}}`: pick the wording from `.claude/rules/reminders.md` by the customer's "oldest" days (30 or less, 31 to 90, or over 90). Over 90 days, say "invoice" for one invoice and "invoices" for more.
