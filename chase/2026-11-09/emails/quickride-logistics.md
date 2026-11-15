@@ -1,14 +1,14 @@
 To: Usman Tariq <finance@quickride.example>
 Subject: Outstanding balance with ITM: PKR 18,900
-Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
 
 Dear Mr. Usman,
 
-Please find below a statement of the open invoices on the account of QuickRide Logistics, according to our records on Monday 9 November 2026.
+Please find below a statement of the open invoices on the account of QuickRide Logistics, according to our records on Sunday 15 November 2026.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM20329 | 29 Oct 2026 | 18,900 | 11 |
+| KITM20329 | 29 Oct 2026 | 18,900 | 17 |
 | **Total** | | **18,900** | |
 
 Kindly arrange payment of the outstanding balance of PKR 18,900 by its due date.

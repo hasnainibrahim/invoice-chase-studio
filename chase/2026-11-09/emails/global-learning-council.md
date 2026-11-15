@@ -1,14 +1,14 @@
 To: Ayesha Raza <procurement@globallearning.example>
 Subject: Outstanding balance with ITM: PKR 94,400
-Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
 
 Dear Madam,
 
-According to our records on Monday 9 November 2026, the account of Global Learning Council has the outstanding balance shown below.
+According to our records on Sunday 15 November 2026, the account of Global Learning Council has the outstanding balance shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM20232 | 1 Oct 2026 | 94,400 | 39 |
+| KITM20232 | 1 Oct 2026 | 94,400 | 45 |
 | **Total** | | **94,400** | |
 
 Kindly arrange payment of the outstanding balance of PKR 94,400.

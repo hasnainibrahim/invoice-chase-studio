@@ -1,14 +1,14 @@
 To: Zainab Ali <accounts@falconridge.example>
 Subject: Outstanding balance with ITM: PKR 309,160
-Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
 
 Dear Madam,
 
-According to our records on Monday 9 November 2026, the account of Falconridge Security Systems has the outstanding balance shown below.
+According to our records on Sunday 15 November 2026, the account of Falconridge Security Systems has the outstanding balance shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM18864 | 25 Jun 2025 | 309,160 | 502 |
+| KITM18864 | 25 Jun 2025 | 309,160 | 508 |
 | **Total** | | **309,160** | |
 
 Kindly arrange payment of the outstanding balance of PKR 309,160. Please let us know if you need a copy of the invoice.

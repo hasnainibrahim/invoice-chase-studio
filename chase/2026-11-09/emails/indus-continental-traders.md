@@ -1,14 +1,14 @@
 To: Bilal Ahmed <accounts@indusctraders.example>
 Subject: Outstanding balance with ITM: PKR 238,000
-Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
 
 Dear Mr. Bilal,
 
-According to our records on Monday 9 November 2026, the account of Indus Continental Traders has the outstanding balance shown below.
+According to our records on Sunday 15 November 2026, the account of Indus Continental Traders has the outstanding balance shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM20157 | 4 Sep 2026 | 238,000 | 66 |
+| KITM20157 | 4 Sep 2026 | 238,000 | 72 |
 | **Total** | | **238,000** | |
 
 Kindly arrange payment of the outstanding balance of PKR 238,000.

@@ -1,14 +1,14 @@
-To: Dr. Salman Yusuf <it.procurement@citycare.example>
+To: Dr. Salman Yusuf <accounts@citycare.example>
 Subject: Outstanding balance with ITM: PKR 385,000
-Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
 
 Dear Doctor Salman,
 
-Please find below a statement of the open invoices on the account of City Care Hospital, according to our records on Monday 9 November 2026.
+Please find below a statement of the open invoices on the account of City Care Hospital, according to our records on Sunday 15 November 2026.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM20307 | 22 Oct 2026 | 385,000 | 18 |
+| KITM20307 | 22 Oct 2026 | 385,000 | 24 |
 | **Total** | | **385,000** | |
 
 Kindly arrange payment of the outstanding balance of PKR 385,000 by its due date.

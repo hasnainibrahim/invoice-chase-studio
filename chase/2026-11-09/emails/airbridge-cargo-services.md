@@ -1,14 +1,14 @@
 To: Tariq Mehmood <tariq.m@airbridgecargo.example>
 Subject: Outstanding balance with ITM: PKR 8,900
-Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outstanding balance.
+Preview: Your open invoices with ITM as of Sunday 15 November 2026, and the outstanding balance.
 
 Dear Mr. Tariq,
 
-According to our records on Monday 9 November 2026, the account of AirBridge Cargo Services has the outstanding balance shown below.
+According to our records on Sunday 15 November 2026, the account of AirBridge Cargo Services has the outstanding balance shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
-| KITM19939 | 9 Jun 2026 | 8,900 | 153 |
+| KITM19939 | 9 Jun 2026 | 8,900 | 159 |
 | **Total** | | **8,900** | |
 
 Kindly arrange payment of the outstanding balance of PKR 8,900. Please let us know if you need a copy of the invoice.
