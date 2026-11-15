@@ -59,7 +59,7 @@ Oldest first. Each customer has one open invoice this week.
 - **One reminder per customer.** If a customer has more than one open invoice, all of them go in the same email. This week every customer has exactly one.
 - **Each reminder lists:** every open invoice number, its date and its amount in PKR (copied exactly from the CSV), and the customer's total outstanding balance.
 - **One standard tone:** the polite, professional tone in `brand/voice.md`.
-  - Open with title and surname, for example "Dear Mr. Khan". Never use first names.
+  - Open with a title and first name, for example "Dear Mr. Imran,". The title is "Mr." by default, "Madam" for a contact confirmed as a woman, and "Dr." where the sheet shows it.
   - Use "outstanding balance" and "Kindly arrange payment of the outstanding balance."
   - Keep it short and direct.
   - End with the standard ITM sign-off, which includes "Should you have any query, please call or email us."
@@ -74,6 +74,6 @@ Oldest first. Each customer has one open invoice this week.
 | **A wrong amount** in a reminder | Amounts come only from the CSV, which the script copies straight from the sheet. Nobody types or rounds an amount. Before sending, a command checks that each reminder's total matches the CSV. |
 | **Chasing an invoice that is already paid** | Paid invoices drop off the next Monday sheet, so a payment made mid-week can still be on this week's sheet. Before you send, check with accounts for any payment since Monday morning, and hold that customer's reminder. |
 | **A wrong email address** | The To: address is copied from the CSV for that customer only. A command checks each draft's To: line against the CSV. In this studio every address must end in `.example`. |
-| **A wrong title or name** in the greeting | The sheet gives a name but no title (Mr., Ms., Dr.). Use the title on the sheet where there is one (for example "Dr. Salman Yusuf"). Otherwise confirm the title before sending. Never guess it from the name. |
+| **A wrong title or name** in the greeting | The sheet gives a name but usually no title. Use the title on the sheet where there is one (for example "Dr. Salman Yusuf"). Otherwise, each week before drafting, ask the accounts team to confirm which contacts are "Mr." and which are "Madam". Never guess it from the name. |
 | **A reminder that breaks the voice guide** | Check every draft against `brand/voice.md` before it is approved, especially the "never say" list. |
 | **Real customer data in the repo** | Only the made-up practice sheet is used here. Real sheets go in `data/real/`, which git ignores. |

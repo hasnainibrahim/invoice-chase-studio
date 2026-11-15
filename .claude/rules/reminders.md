@@ -17,9 +17,12 @@ Every reminder file starts with these three lines, in this order:
 
 ## Greeting
 
-Greet the contact by first name: `Dear {{first_name}},`
+Greet the contact by title and first name: `Dear {{title}} {{first_name}},`
 
-This replaces the "title and surname" greeting in `brand/voice.md` for reminder files.
+- `{{title}}` is "Mr." by default, because most of our contacts are men.
+- Use "Madam" for a contact the accounts team confirms is a woman, for example "Dear Madam Sana,".
+- Use "Dr." where the sheet shows it, for example "Dear Dr. Salman,".
+- Never guess the title from the name. Each week, before drafting, list every contact and ask the accounts team which ones should not get "Mr.". Do not draft until they answer.
 
 ## Invoice table
 
