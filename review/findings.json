@@ -1,34 +1,111 @@
 {
-  "folder": "chase/test-bad",
+  "folder": "chase/2026-11-23",
   "csv": "data/weekly/2026-11-23.csv",
   "findings": [
     {
-      "file": "chase/test-bad/emails/01-bad.md",
-      "line": 14,
-      "severity": "high",
-      "problem": "Still not fixed. KITM20157 (4 Sep 2026, 238,000, 80 days) is not in the 2026-11-23 sheet. The sheet lists only three open invoices for Crescent Health Services: KITM20305, KITM20401 and KITM20402.",
-      "fix": "Delete the KITM20157 row."
-    },
-    {
-      "file": "chase/test-bad/emails/01-bad.md",
-      "line": 15,
-      "severity": "high",
-      "problem": "Still not fixed. The Total row does not match the rows above it. Now that line 11 is correct, the four rows add up to 1,463,500, but the total says 1,225,500. The figure 1,225,500 is the correct sheet total (1,168,000 + 45,000 + 12,500). The extra row on line 14 is what breaks it.",
-      "fix": "Remove line 14. The three rows left will add up to 1,225,500, which matches the total, the subject line and the request line. Check the sum with a command."
-    },
-    {
-      "file": "chase/test-bad/emails/01-bad.md",
-      "line": 19,
-      "severity": "high",
-      "problem": "Still not fixed. \"Pay within 24 hours or we will take legal action.\" is a legal threat with a deadline. Both the rules and the voice guide forbid any mention of legal action, and the line is not polite.",
-      "fix": "Delete the line. The request on line 17 is enough."
-    },
-    {
-      "file": "chase/test-bad/emails/01-bad.md",
+      "file": "chase/2026-11-23/emails/crescent-health-services.md",
       "line": 7,
-      "severity": "low",
-      "problem": "Still not fixed. The oldest invoice is 33 days old, so the 31 to 90 day opening applies. That opening must give the number of open invoices and the outstanding balance. This line leaves out both.",
-      "fix": "Use: \"According to our records on Monday 23 November 2026, the account of Crescent Health Services has 3 open invoices with an outstanding balance of PKR 1,225,500, shown below.\""
+      "severity": "medium",
+      "problem": "The opening line does not use the required wording for invoices 31 to 90 days old (the oldest is 33 days). It says 'has the outstanding balance shown below' and leaves out the invoice count and the total. The same mistake is in all 15 overdue reminders listed below.",
+      "fix": "Replace line 7 with: 'According to our records on Monday 23 November 2026, the account of Crescent Health Services has 3 open invoices with an outstanding balance of PKR 1,225,500, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/airbridge-cargo-services.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'According to our records on Monday 23 November 2026, the account of AirBridge Cargo Services has 1 open invoice with an outstanding balance of PKR 8,900, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/bytecraft-software-house.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Bytecraft Software House has 1 open invoice with an outstanding balance of PKR 6,900, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/city-care-hospital.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of City Care Hospital has 1 open invoice with an outstanding balance of PKR 385,000, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/civic-futures-foundation.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Civic Futures Foundation has 1 open invoice with an outstanding balance of PKR 246,500, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/codenest-solutions.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of CodeNest Solutions has 1 open invoice with an outstanding balance of PKR 2,500, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/falconridge-security-systems.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Falconridge Security Systems has 1 open invoice with an outstanding balance of PKR 309,160, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/helix-pharma-pvt-ltd.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Helix Pharma Pvt Ltd has 1 open invoice with an outstanding balance of PKR 7,000, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/meridian-freight-pvt-ltd.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Meridian Freight Pvt Ltd has 1 open invoice with an outstanding balance of PKR 2,700, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/northwind-supply-chain.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Northwind Supply Chain has 1 open invoice with an outstanding balance of PKR 76,300, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/oceanic-consolidators.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Oceanic Consolidators has 1 open invoice with an outstanding balance of PKR 27,600, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/pinnacle-technologies.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Pinnacle Technologies has 1 open invoice with an outstanding balance of PKR 11,500, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/silverline-enterprises.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Silverline Enterprises has 1 open invoice with an outstanding balance of PKR 312,000, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/skyline-aero-consultants.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Skyline Aero Consultants has 1 open invoice with an outstanding balance of PKR 8,000, shown below.'"
+    },
+    {
+      "file": "chase/2026-11-23/emails/sunrise-leather-works.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line leaves out the required invoice count and total.",
+      "fix": "'...the account of Sunrise Leather Works has 1 open invoice with an outstanding balance of PKR 8,520, shown below.'"
     }
   ]
 }
