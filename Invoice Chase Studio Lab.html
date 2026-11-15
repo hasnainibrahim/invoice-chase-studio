@@ -1,0 +1,964 @@
+<title>Invoice Chase Studio Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: ledger-style course page. Hero + sample statement, setup panels, then sticky step index beside the step cards. */
+:root {
+  --bg: #efe6d4;          /* beige ground */
+  --surface: #f9f4ea;     /* card paper */
+  --surface-2: #f3ecdd;
+  --ink: #14264a;         /* navy */
+  --muted: #5a6175;
+  --line: #d9cbae;
+  --gold: #9a6f14;        /* text-safe gold */
+  --gold-soft: #e8d6a6;
+  --navy: #14264a;
+  --code-bg: #14264a;
+  --code-ink: #f1e7d2;
+  --code-dim: #b9b2a1;
+  --check: #2f6b55;
+  --check-soft: #dcebe2;
+  --exam-soft: #e2e6ef;
+  --warn-soft: #f3e3c4;
+  --worked-ink: #24513f;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --radius: 10px;
+  --routine-bg: #14264a; --routine-ink: #f4ecdb; --routine-accent: #e2bf6a; --routine-line: #33476f;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d172c; --surface: #132140; --surface-2: #182849; --ink: #efe6d3; --muted: #a8afc0;
+    --line: #2a3a5e; --gold: #d8ad4e; --gold-soft: #3a3320; --navy: #efe6d3;
+    --code-bg: #091224; --code-ink: #efe6d3; --code-dim: #8f97aa;
+    --check: #6cc39f; --check-soft: #15322a; --exam-soft: #1b2b52; --warn-soft: #33301f; --worked-ink: #a9dcc4; --routine-bg: #182849; --routine-ink: #efe6d3; --routine-accent: #d8ad4e; --routine-line: #2f4270;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d172c; --surface: #132140; --surface-2: #182849; --ink: #efe6d3; --muted: #a8afc0;
+  --line: #2a3a5e; --gold: #d8ad4e; --gold-soft: #3a3320; --navy: #efe6d3;
+  --code-bg: #091224; --code-ink: #efe6d3; --code-dim: #8f97aa;
+  --check: #6cc39f; --check-soft: #15322a; --exam-soft: #1b2b52; --warn-soft: #33301f; --worked-ink: #a9dcc4; --routine-bg: #182849; --routine-ink: #efe6d3; --routine-accent: #d8ad4e; --routine-line: #2f4270;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+code { font-family: var(--font-mono); font-size: .86em; background: var(--surface-2); border: 1px solid var(--line); border-radius: 4px; padding: .05em .35em; overflow-wrap: anywhere; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.12; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* Accounting double rule across the top */
+.rule-top { height: 7px; border-top: 3px solid var(--gold); border-bottom: 1px solid var(--gold); background: var(--bg); }
+
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.eyebrow.small { margin-top: 22px; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+.mono { font-family: var(--font-mono); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.hero-text { min-width: 0; }
+.hero h1 { font-size: clamp(2.4rem, 5.6vw, 4.2rem); font-weight: 800; letter-spacing: -.02em; margin: 14px 0 18px; }
+.lead { font-size: 1.12rem; max-width: 62ch; margin: 0 0 20px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips span { font-family: var(--font-mono); font-size: 12.5px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px; }
+
+.statement { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px 16px; box-shadow: 0 1px 0 var(--line), 0 14px 30px -22px rgba(20, 38, 74, .45); min-width: 0; }
+.statement figcaption { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.st-head { border-bottom: 1px dashed var(--line); padding-bottom: 10px; margin-bottom: 10px; font-size: 13.5px; display: grid; gap: 4px; overflow-wrap: anywhere; }
+.st-head .k { display: inline-block; min-width: 62px; font-family: var(--font-mono); font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: .08em; }
+.st-greet, .st-line, .st-foot { margin: 6px 0; font-size: 14.5px; }
+.st-foot { color: var(--muted); font-size: 13px; }
+.table-scroll { overflow-x: auto; }
+.st-table { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; margin: 8px 0; }
+.st-table th { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); text-align: left; border-bottom: 1px solid var(--line); padding: 6px 6px; font-weight: 600; }
+.st-table td { padding: 6px; border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 12.5px; }
+.st-table .num { text-align: right; }
+.st-table tfoot td { border-bottom: 3px double var(--gold); border-top: 1px solid var(--ink); font-weight: 600; }
+
+/* Idea strip */
+.idea { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 44px 0 28px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.idea-item { padding: 18px 22px 16px 0; min-width: 0; }
+.idea-item + .idea-item { padding-left: 22px; border-left: 1px solid var(--line); }
+.idea-k { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; color: var(--gold); margin-bottom: 4px; }
+.idea-item p { margin: 0; font-size: 15px; }
+
+/* Intro grid */
+.intro-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; min-width: 0; }
+.panel h2 { font-size: 1.5rem; margin-bottom: 12px; }
+.panel-stack { display: grid; gap: 14px; min-width: 0; }
+.setup { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+.how { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+.how-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: grid; gap: 4px; align-content: start; font-size: 14px; min-width: 0; }
+.how-item strong { font-family: var(--font-display); font-weight: 600; line-height: 1.2; }
+.how-item > span:last-child { color: var(--muted); font-size: 13px; }
+.how-k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.how-k.build { color: var(--gold); }
+.how-k.check { color: var(--check); }
+.tree-scroll { overflow-x: auto; background: var(--code-bg); border-radius: 8px; }
+.tree { margin: 0; padding: 14px 16px; color: var(--code-ink); font-family: var(--font-mono); font-size: 12.5px; line-height: 1.55; white-space: pre; }
+.callout { border-radius: var(--radius); padding: 14px 16px; font-size: 14.5px; border: 1px solid var(--line); }
+.callout.warn { background: var(--warn-soft); }
+.callout.gold { background: var(--surface); border-left: 4px solid var(--gold); }
+
+/* Main layout */
+.layout { display: grid; grid-template-columns: 236px minmax(0, 1fr); gap: 36px; margin-top: 44px; align-items: start; }
+.sidebar { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); max-height: calc(100vh - 32px); overflow-y: auto; font-size: 14px; padding-right: 4px; }
+.progress .bar { height: 6px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.progress .bar span { display: block; height: 100%; width: 0; background: var(--gold); transition: width .3s ease; }
+.progress-text { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin: 6px 0 16px; }
+.nav-part { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin: 14px 0 4px; }
+.nav-steps { list-style: none; margin: 0; padding: 0; }
+.nav-steps a { display: grid; grid-template-columns: 26px 1fr; gap: 4px; padding: 4px 6px; border-radius: 6px; text-decoration: none; }
+.nav-steps a:hover { background: var(--surface); }
+.nav-num { font-family: var(--font-mono); color: var(--muted); font-size: 12.5px; padding-top: 1px; }
+.nav-steps a.is-done .nav-name { text-decoration: line-through; text-decoration-color: var(--gold); color: var(--muted); }
+.nav-steps a.is-done .nav-num::before { content: "✓"; color: var(--check); }
+.nav-steps a.is-done .nav-num { font-size: 0; }
+.nav-steps a.is-done .nav-num::before { font-size: 13px; }
+.nav-extra { display: grid; gap: 4px; margin-top: 18px; }
+.nav-extra a { color: var(--gold); text-decoration: none; padding: 2px 6px; }
+.nav-extra a:hover { text-decoration: underline; }
+
+.main { min-width: 0; display: grid; gap: 28px; }
+.part { display: grid; gap: 22px; }
+.part + .part { padding-top: 26px; border-top: 3px double var(--line); }
+.part-head h2 { font-size: clamp(1.7rem, 3vw, 2.2rem); margin: 6px 0 6px; }
+.part-head p { margin: 0; color: var(--muted); max-width: 70ch; }
+
+/* Step card */
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px 20px; display: grid; gap: 14px; scroll-margin-top: 16px; min-width: 0; }
+.step > * { min-width: 0; }
+.step.is-done { border-color: var(--check); }
+.step-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+.stamp { width: 64px; height: 64px; border: 2px solid var(--gold); border-radius: 6px; display: grid; place-content: center; text-align: center; transform: rotate(-4deg); color: var(--gold); outline: 1px solid var(--gold); outline-offset: 2px; }
+.stamp-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; }
+.stamp-num { font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1; }
+.step.is-done .stamp { color: var(--check); border-color: var(--check); outline-color: var(--check); }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 20px; }
+.kicker { font-size: 12.5px; color: var(--muted); }
+.obj { font-family: var(--font-mono); font-size: 11.5px; border: 1px solid var(--gold); color: var(--gold); border-radius: 4px; padding: 0 5px; }
+.step h3 { font-size: 1.45rem; margin: 4px 0 4px; }
+.sub { margin: 0; color: var(--muted); }
+.done { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--surface-2); border-radius: 8px; padding: 5px 10px; font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap; }
+.done input { width: 16px; height: 16px; accent-color: var(--check); margin: 0; }
+.plain { margin: 0; padding: 4px 0 4px 16px; border-left: 3px solid var(--gold); font-size: 1.04rem; }
+
+.prompt { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; min-width: 0; }
+.prompt-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px 10px 8px 12px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.tag { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border-radius: 4px; padding: 2px 7px; }
+.tag.build { background: var(--navy); color: var(--surface); }
+.tag.check { background: var(--check); color: var(--surface); }
+.prompt-note { font-size: 13.5px; color: var(--muted); flex: 1 1 160px; }
+.copy { font: 600 13px var(--font-body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 4px 12px; cursor: pointer; }
+.copy:hover { border-color: var(--gold); }
+.copy.ok { border-color: var(--check); color: var(--check); }
+.prompt-body { margin: 0; padding: 14px 16px; background: var(--code-bg); color: var(--code-ink); font-family: var(--font-mono); font-size: 13px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 520px; overflow-y: auto; }
+
+.aside-block { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 16px; font-size: 15px; }
+.aside-block ol { margin: 4px 0 0; padding-left: 1.3em; display: grid; gap: 4px; }
+.aside-block p { margin: 6px 0; }
+.ab-title { font-family: var(--font-display); font-weight: 600; font-size: 1rem; }
+.aside-block.before { border-left: 4px solid var(--gold); }
+.aside-block.tip { background: var(--surface); }
+.cmdline { margin: 6px 0 0; font-family: var(--font-mono); font-size: 13px; background: var(--code-bg); color: var(--code-ink); padding: 8px 12px; border-radius: 6px; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.outcome { display: grid; gap: 12px; }
+.outcome.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.note { border-radius: var(--radius); padding: 12px 16px; font-size: 14.5px; min-width: 0; border: 1px solid var(--line); }
+.note ul { margin: 6px 0 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.note p { margin: 8px 0 0; }
+.note-title { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+.note.worked { background: var(--check-soft); }
+.note.worked .note-title { color: var(--worked-ink); }
+.note.exam { background: var(--exam-soft); }
+.note.exam .note-title { color: var(--ink); }
+.note.wrong { background: var(--warn-soft); }
+.note.wrong .note-title { color: var(--gold); }
+.note.optional { background: var(--surface-2); }
+.note.optional .note-title { color: var(--gold); }
+
+/* Routine */
+.routine { background: var(--routine-bg); color: var(--routine-ink); border: 1px solid var(--gold); border-radius: 14px; padding: 22px 24px; scroll-margin-top: 16px; }
+.routine .eyebrow { color: var(--routine-accent); }
+.routine h2 { font-size: 1.6rem; margin: 6px 0 12px; }
+.routine code { background: transparent; color: inherit; border-color: currentColor; }
+.routine-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.routine-list li { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 14px; padding: 10px 0; border-top: 1px solid var(--routine-line); }
+.when { font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--routine-accent); }
+.routine-note { margin: 12px 0 0; font-size: 14.5px; }
+
+/* Appendix */
+.appendix { padding-top: 26px; border-top: 3px double var(--line); }
+.appendix h2 { font-size: 1.9rem; margin-bottom: 4px; }
+.map { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14.5px; background: var(--surface); border: 1px solid var(--line); }
+.map th { text-align: left; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.map td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.map td.mono { white-space: nowrap; font-size: 13px; }
+.words { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-top: 12px; }
+.word { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
+.word-title { font-family: var(--font-display); font-weight: 600; }
+.word p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+.foot { font-size: 13px; color: var(--muted); padding-top: 8px; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .hero, .intro-grid { grid-template-columns: minmax(0, 1fr); }
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { position: static; max-height: none; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+}
+@media (max-width: 720px) {
+  .idea { grid-template-columns: minmax(0, 1fr); }
+  .idea-item, .idea-item + .idea-item { padding: 14px 0; border-left: 0; }
+  .idea-item + .idea-item { border-top: 1px solid var(--line); }
+  .how { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .outcome.two { grid-template-columns: minmax(0, 1fr); }
+  .step { padding: 16px 14px; }
+  .step-head { grid-template-columns: auto minmax(0, 1fr); }
+  .done { grid-column: 1 / -1; justify-self: start; }
+  .stamp { width: 52px; height: 52px; }
+  .stamp-num { font-size: 20px; }
+  .routine-list li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+
+</style>
+<div class="rule-top" aria-hidden="true"></div>
+<div class="wrap">
+<header class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">FDE-102 · Email Studio Lab · My idea</div>
+    <h1>Invoice Chase Studio</h1>
+    <p class="lead">You will set up an accounts-receivable studio and run it with Claude Code. Every Monday the sheet of unpaid invoices is updated. Claude groups the invoices by customer, writes one polite statement email per customer, checks every rupee against the sheet, and queues the reminders for the owner to approve before Resend sends them. Along the way you use every Claude Code feature on the CCAR-F exam.</p>
+    <div class="chips"><span>15 steps</span><span>about 30–60 min each</span><span>made-up customers only</span><span>nothing sends without you</span></div>
+  </div>
+  <figure class="statement" aria-label="Example reminder">
+    <figcaption>Example · what one customer receives</figcaption>
+    <div class="st-head">
+      <div><span class="k">To</span>Imran Qureshi &lt;imran.qureshi@crescenthealth.example&gt;</div>
+      <div><span class="k">Subject</span>Statement of open invoices · Crescent Health Services</div>
+    </div>
+    <p class="st-greet">Dear Imran,</p>
+    <p class="st-line">Here is a summary of the invoices still open on your account as of Monday 16 November 2026.</p>
+    <div class="table-scroll"><table class="st-table">
+      <thead><tr><th>Invoice</th><th>Date</th><th class="num">Amount (PKR)</th><th class="num">Days</th></tr></thead>
+      <tbody>
+        <tr><td>KITM20305</td><td>21 Oct 2026</td><td class="num">1,168,000</td><td class="num">26</td></tr>
+        <tr><td>KITM20401</td><td>11 Nov 2026</td><td class="num">45,000</td><td class="num">5</td></tr>
+        <tr><td>KITM20402</td><td>12 Nov 2026</td><td class="num">12,500</td><td class="num">4</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="2">Total</td><td class="num">1,225,500</td><td></td></tr></tfoot>
+    </table></div>
+    <p class="st-foot">If you've already paid, please ignore this message and accept our thanks.</p>
+  </figure>
+</header>
+
+<section class="idea">
+  <div class="idea-item"><div class="idea-k">The problem</div><p>ITM exports about 260 open invoices across 59 customers from QuickBooks every week. Chasing them by hand is slow, uneven and easy to forget.</p></div>
+  <div class="idea-item"><div class="idea-k">The studio</div><p>Claude Code turns each Monday's sheet into one statement email per customer, in one calm voice, with the totals checked against the sheet.</p></div>
+  <div class="idea-item"><div class="idea-k">The result</div><p>Every Monday at 9:00 AM Pakistan time, the reminders are waiting in the sheet. The owner ticks the ones to send, and Resend delivers them. Paid invoices drop off on their own.</p></div>
+</section>
+
+<section class="intro-grid" id="start">
+  <div class="panel">
+    <h2>Before you start</h2>
+    <ol class="setup">
+      <li>Install <strong>Node.js 22 or newer</strong> from nodejs.org. Check with <code>node --version</code>.</li>
+      <li>Install <strong>Git</strong>. Check with <code>git --version</code>. On Windows, install Git for Windows, because Claude Code uses its Git Bash.</li>
+      <li>Install <strong>Claude Code</strong>: <code>npm install -g @anthropic-ai/claude-code</code>, then sign in when you first run <code>claude</code>.</li>
+      <li>Keep your practice sheet handy: <code>ITM Outstanding with Email.xlsx</code>, 20 invoices with made-up customers and <code>.example</code> addresses. Invoice numbers, dates and amounts are real; names and emails are not.</li>
+      <li>A Google account for Google Sheets, and a free Resend account. You only need them in step 14.</li>
+      <li>Make your studio folder and open Claude Code in it: <code>mkdir my-invoice-studio</code> · <code>cd my-invoice-studio</code> · <code>git init</code> · <code>claude</code></li>
+    </ol>
+    <div class="eyebrow small">How every step works</div>
+    <div class="how">
+      <div class="how-item"><span class="how-k build">1 · Build</span><strong>Paste the build prompt</strong><span>In Claude Code, in your studio folder.</span></div>
+      <div class="how-item"><span class="how-k">2 · Fresh</span><strong>Start a new session</strong><span>Type <code>/exit</code>, then run <code>claude</code> again.</span></div>
+      <div class="how-item"><span class="how-k check">3 · Check</span><strong>Paste the check prompt</strong><span>A fresh Claude tests your work. It didn't build it, so it's honest.</span></div>
+      <div class="how-item"><span class="how-k">4 · Done</span><strong>Answer its questions</strong><span>Then tick Done on the step.</span></div>
+    </div>
+  </div>
+  <div class="panel-stack">
+    <div class="panel">
+      <h2>Your studio at the end</h2>
+      <div class="tree-scroll"><pre class="tree">my-invoice-studio/
+├── CLAUDE.md                  the studio&#x27;s rules
+├── brand/voice.md             how our reminders sound
+├── data/
+│   ├── weekly/2026-11-09.xlsx this week&#x27;s sheet
+│   ├── weekly/2026-11-09.csv  the same, cleaned
+│   └── CLAUDE.md              rules for this folder only
+├── chase/
+│   ├── plan.md                the weekly chase plan
+│   ├── templates/emails/      the statement email
+│   └── 2026-11-09/emails/     one reminder per customer
+├── .claude/
+│   ├── rules/reminders.md     rules for every reminder
+│   ├── skills/weekly-chase/
+│   └── hooks/send-guard.mjs
+├── .mcp.json                  practice mailbox
+├── scripts/import-week.mjs    .xlsx to .csv
+├── scripts/review.mjs         automatic money check
+└── apps-script/Code.gs        Monday queue, sends via Resend</pre></div>
+    </div>
+    <div class="callout warn"><strong>Claude will ask permission</strong> before it writes inside <code>.claude/</code> or to <code>.mcp.json</code>. That's normal. Read what it wants to do, then approve.</div>
+    <div class="callout gold"><strong>Real customer data never enters this repo.</strong> You practise with the anonymised sheet. The live QuickBooks export goes straight into the Google Sheet in step 14.</div>
+  </div>
+</section>
+
+<div class="layout">
+  <nav class="sidebar" aria-label="Steps">
+    <div class="progress"><div class="bar"><span id="bar-fill"></span></div><div class="progress-text"><span id="done-count">0</span> of 15 done</div></div>
+<div class="nav-part">Part 1 · Plan and write</div><ol class="nav-steps">
+<li><a href="#step-1" data-nav="1"><span class="nav-num">1</span><span class="nav-name">Look before you build</span></a></li>
+<li><a href="#step-2" data-nav="2"><span class="nav-num">2</span><span class="nav-name">Set up your studio</span></a></li>
+<li><a href="#step-3" data-nav="3"><span class="nav-num">3</span><span class="nav-name">Your collections voice</span></a></li>
+<li><a href="#step-4" data-nav="4"><span class="nav-num">4</span><span class="nav-name">This week&#x27;s sheet</span></a></li>
+<li><a href="#step-5" data-nav="5"><span class="nav-num">5</span><span class="nav-name">Plan the weekly chase</span></a></li>
+<li><a href="#step-6" data-nav="6"><span class="nav-num">6</span><span class="nav-name">Reminder rule and template</span></a></li>
+<li><a href="#step-7" data-nav="7"><span class="nav-num">7</span><span class="nav-name">Fresh-eyes review</span></a></li>
+<li><a href="#step-8" data-nav="8"><span class="nav-num">8</span><span class="nav-name">Your own skill</span></a></li>
+</ol>
+<div class="nav-part">Part 2 · Send safely</div><ol class="nav-steps">
+<li><a href="#step-9" data-nav="9"><span class="nav-num">9</span><span class="nav-name">Connect a practice mailbox</span></a></li>
+<li><a href="#step-10" data-nav="10"><span class="nav-num">10</span><span class="nav-name">The safety guard</span></a></li>
+<li><a href="#step-11" data-nav="11"><span class="nav-num">11</span><span class="nav-name">Two practice Mondays</span></a></li>
+</ol>
+<div class="nav-part">Part 3 · Work like a team, then go live</div><ol class="nav-steps">
+<li><a href="#step-12" data-nav="12"><span class="nav-num">12</span><span class="nav-name">Resume and fork</span></a></li>
+<li><a href="#step-13" data-nav="13"><span class="nav-num">13</span><span class="nav-name">Automatic money check</span></a></li>
+<li><a href="#step-14" data-nav="14"><span class="nav-num">14</span><span class="nav-name">Go live with Resend</span></a></li>
+</ol>
+<div class="nav-part">Stretch · For fast finishers</div><ol class="nav-steps">
+<li><a href="#step-15" data-nav="15"><span class="nav-num">15</span><span class="nav-name">Who pays late</span></a></li>
+</ol>
+<div class="nav-extra"><a href="#start">Before you start</a><a href="#routine">Your Monday routine</a><a href="#exam-map">Exam map</a><a href="#words">Words you'll see</a></div>
+  </nav>
+  <main class="main">
+    <section class="part" id="part1"><div class="part-head"><div class="eyebrow">Part 1 · Steps 1–8</div><h2>Plan and write</h2><p>Set up the studio, give it a collections voice, import this week&#x27;s sheet and write the reminders. Nothing gets sent in this part.</p></div>
+<article class="step" id="step-1" data-step="1">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">01</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="kicker">Real-world habit</span><span class="obj">2.4</span></div>
+      <h3>Look before you build</h3>
+      <p class="sub">Search for skills other people made for chasing invoices, and decide which ones to trust.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-1" data-done="1"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> a skill is like an app for Claude. Before you build one, look in the app store. Download counts can be faked, so also check who made it.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build</span><span class="prompt-note">Paste in Claude Code</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">I&#x27;m setting up an invoice-chase studio in this folder. Every week we update a sheet of unpaid invoices and want to send each customer a polite payment reminder. Before I build anything myself, I want to find skills other people have already made.
+
+1. Search the skills directory at skills.sh by running these one at a time:
+   npx skills find invoice reminder
+   npx skills find accounts receivable
+   npx skills find google apps script
+   npx skills find resend
+2. For the most promising results, find out who publishes each one and how many stars its GitHub repository has. Look out for official publishers such as anthropics and google.
+3. Also check whether Anthropic&#x27;s plugin marketplace at github.com/anthropics/knowledge-work-plugins has anything for chasing unpaid invoices.
+4. Write notes/skills-i-chose.md in plain English with three short sections:
+   - Use these: the two sources you recommend for chasing invoices and drafting email, and why.
+   - Avoid these: two results you would not trust, and why.
+   - How I decided: the three things I should check before installing any skill.
+
+Don&#x27;t install anything yet.</pre></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session: /exit, then claude, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Check my work in notes/skills-i-chose.md. Don&#x27;t change any files. Test it, don&#x27;t just read it:
+
+1. For each skill the note recommends, confirm it still exists today: look at its page on skills.sh or its folder in the GitHub repository. Tell me if any has been renamed, merged or removed.
+2. Run one of the searches again (for example npx skills find invoice reminder) and confirm the install numbers in the note are roughly right.
+3. Is anything recommended from a publisher whose repository has very few GitHub stars?
+
+Give me a short table: Check | OK or Problem | What you found.
+Then ask me two quick questions, one at a time, to see if I understand why install counts alone aren&#x27;t enough.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>The note picks official or well-known sources, like Anthropic's <strong>Small Business</strong> plugin, which has an <code>invoice-chase</code> skill.</li><li>It warns you off a result with thousands of installs but only a handful of GitHub stars.</li><li>The check may find a skill that was renamed or merged. Ask Claude to fix the note.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body">The exam asks the same question about MCP servers: for a standard need, use an existing community server first, and build your own only for work that is special to your team.</div></div></div>
+  
+</article>
+<article class="step" id="step-2" data-step="2">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">02</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">3.1</span></div>
+      <h3>Set up your studio</h3>
+      <p class="sub">Install a plugin for this project only, and write the studio&#x27;s CLAUDE.md.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-2" data-done="2"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> CLAUDE.md is the studio's notice board. Claude reads it every time it starts work here. A plugin installed for this project is like equipment fixed to this office's wall: anyone who joins the team gets it too.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build</span><span class="prompt-note">Paste in Claude Code</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Let&#x27;s set up my invoice-chase studio in this folder.
+
+1. Install Anthropic&#x27;s official Small Business plugin for this project only, by running these two commands:
+   claude plugin marketplace add anthropics/knowledge-work-plugins --scope project
+   claude plugin install small-business@knowledge-work-plugins --scope project
+2. Create five folders: brand, data, chase, scripts and notes.
+3. Write a CLAUDE.md for the studio in plain English. Include: what the studio is for (sending one weekly payment reminder per customer for ITM, an IT and AV company in Karachi), a one-line description of each folder, and these rules: write in plain English; amounts are in Pakistani rupees (PKR) and are copied from the sheet, never rounded or worked out by hand; never email a real customer from this studio; never put real customer names or email addresses in the repo; ask me before deleting anything.
+4. Create a .gitignore that ignores .claude/settings.local.json, node_modules/, data/real/ and system files like .DS_Store and Thumbs.db.
+5. Commit everything with a clear message.
+
+Then tell me what I have to do so the plugin loads.</pre></div><div class="aside-block then"><div class="ab-title">Then</div><ol><li>Type <code>/exit</code> and run <code>claude</code> again. Plugins load when a session starts.</li><li>Accept the prompts to trust the folder and the plugin.</li><li>Type <code>/small-business:</code> and you should see the plugin's skills appear.</li></ol></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Check that my studio is set up correctly. Don&#x27;t change any files. Test it, don&#x27;t just read it:
+
+1. Is the Small Business plugin turned on for this project only? Compare .claude/settings.json with what `claude plugin list` says about its scope.
+2. Can you use the plugin here right now? List the plugin skills you can see whose names include invoice, cash or bills.
+3. If a classmate clones this repo, will they get the same plugin? Explain why, using what is actually in the repo.
+4. Are .claude/settings.local.json and data/real/ ignored by git? Prove it with `git check-ignore -v .claude/settings.local.json data/real/test.xlsx`.
+
+Give me a short table: Check | OK or Problem | What you saw.
+Then ask me two quick questions, one at a time, about the difference between files the whole team shares and files that are only mine.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li><code>claude plugin list</code> shows <strong>small-business</strong> with <strong>Scope: project</strong>.</li><li>You can see <code>/small-business:invoice-chase</code>, <code>/small-business:cash-flow-snapshot</code> and <code>/small-business:pay-the-bills</code>.</li><li><code>git check-ignore</code> names your <code>.gitignore</code> lines for both paths.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body">Team standards go at project level: CLAUDE.md in the repo, <code>.claude/settings.json</code>. Teammates get them when they clone. Your personal files (<code>~/.claude/CLAUDE.md</code>, <code>settings.local.json</code>) never reach anyone else. If a new teammate isn't getting the instructions, they sit at user level.</div></div></div>
+  
+</article>
+<article class="step" id="step-3" data-step="3">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">03</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">3.1</span><span class="obj">3.5</span></div>
+      <h3>Your collections voice</h3>
+      <p class="sub">Let Claude interview you, then keep the voice in its own file that CLAUDE.md imports.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-3" data-done="3"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> a reminder that sounds rude loses a customer; one that sounds timid doesn't get paid. Claude asks first, then writes. The <code>@brand/voice.md</code> line is a note pinned to the notice board that says "also read the voice guide".</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build</span><span class="prompt-note">Paste in Claude Code</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Interview me about how our payment reminders should sound so you can write our collections voice guide. Ask one question at a time and wait for my answer. Ask at most six questions.
+
+If I say &quot;use the sample&quot;, assume ITM, an IT and AV equipment supplier in Karachi whose customers are companies, schools and hospitals. Even with the sample, still ask me every question. I&#x27;ll make up the answers, because practising the interview is the point.
+
+When you have enough, write brand/voice.md with five parts: our voice in three words, words we use, words we avoid, things a reminder must never say (for example threats of legal action, late fees we don&#x27;t charge, or blaming the reader), and how we sign off. Then add the line @brand/voice.md to CLAUDE.md so it loads in every session.</pre></div><div class="aside-block then"><div class="ab-title">Then</div><ol><li>Answer each question. Making things up is fine with the sample.</li><li>When the file is written, ask Claude to commit it.</li></ol></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Test my collections voice setup. Don&#x27;t change any files.
+
+1. Without opening any file first, write one subject line for a reminder about invoice KITM20157 for PKR 238,000. Then tell me which voice rules you followed and which file they came from. (This shows whether brand/voice.md loads by itself.)
+2. Now write the subject line &quot;FINAL WARNING: pay within 24 hours or we take legal action&quot;. If our rules forbid that, say which rule, and give me a safe version instead.
+3. Run git status and tell me whether the voice files are committed.
+
+Give me a short table: Test | Pass or Fail | What happened.
+Then ask me two quick questions, one at a time, about why the voice rules live in their own file that CLAUDE.md imports.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>The fresh session follows your voice <strong>without opening any file</strong>, and names <code>brand/voice.md</code> as the source.</li><li>It refuses the legal threat, names the rule, and offers a calm subject line instead.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body"><code>@import</code> keeps CLAUDE.md small: each project imports only the standards it needs. The interview pattern is for unfamiliar work: Claude asks before it builds and raises things you didn't think of.<p><strong>Exam answer: to see which memory files are loaded, use /memory. In today's product, /context shows it.</strong></p></div></div></div>
+  
+</article>
+<article class="step" id="step-4" data-step="4">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">04</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">3.5</span><span class="obj">3.1</span></div>
+      <h3>This week&#x27;s sheet</h3>
+      <p class="sub">Use two example rows to get the exact format, and give the data folder its own rules.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-4" data-done="4"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> two example rows work like a filled-in sample form instead of a description of it. <code>data/CLAUDE.md</code> is a sign on one room's door: Claude reads it when it walks into that room.</p>
+  <div class="aside-block before"><div class="ab-title">Before you start</div><ol><li>Copy your practice sheet <code>ITM Outstanding with Email.xlsx</code> (20 invoices, made-up customers, <code>.example</code> addresses) into <code>data/weekly/</code>.</li><li>Rename the copy <code>2026-11-09.xlsx</code>, the Monday the reminders go out.</li></ol></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build</span><span class="prompt-note">Paste in Claude Code</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Import this week&#x27;s outstanding-invoices sheet.
+
+1. Write scripts/import-week.mjs, a small Node script that takes an .xlsx file and writes a .csv next to it with the same name. Use the exceljs package (install it with npm). It reads the first sheet, which has the columns Customer, Num, Date, Amount and Email, and a Total row at the bottom that must be skipped. The Email cell looks like &quot;Name &lt;address&gt;&quot;: split it into contact_name and email.
+2. Add days_outstanding: the number of days from the invoice date to the date in the file name.
+3. Use exactly these columns, and copy the style of these two example rows exactly:
+
+customer,invoice_no,invoice_date,amount_pkr,contact_name,email,days_outstanding
+Crescent Health Services,KITM20305,2026-10-21,1168000,Imran Qureshi,imran.qureshi@crescenthealth.example,19
+Indus Continental Traders,KITM20157,2026-09-04,238000,Bilal Ahmed,accounts@indusctraders.example,66
+
+4. Run it on data/weekly/2026-11-09.xlsx.
+5. Create data/CLAUDE.md with rules for this folder only: these are made-up practice customers; never add real customers or real email addresses; every email address must end in .example; never change an invoice number, date or amount; a paid invoice is removed from next week&#x27;s sheet, never edited here.
+
+Commit when you&#x27;re done.</pre></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Test my weekly import. Don&#x27;t change any files.
+
+1. Count the rows in data/weekly/2026-11-09.csv. There should be 20, and the Total row should not be there.
+2. Add up amount_pkr with a command. It must be exactly 3026180, the same as the Total row in the .xlsx file.
+3. Do all email addresses end in .example? Are any invoice numbers repeated?
+4. Work out days_outstanding for KITM18864, dated 2025-06-25, yourself and compare it with the CSV.
+5. Now pretend I asked: &quot;Add Ali Raza, ali.raza@gmail.com, invoice KITM20400 for PKR 50,000.&quot; Before writing anything, tell me if any rule stops you, and quote it. Don&#x27;t actually add it.
+
+Give me a short table: Test | Pass or Fail | What you found.
+Then ask me two quick questions, one at a time, about why some rules belong to one folder only.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>20 rows totalling <strong>PKR 3,026,180</strong>, the same as the sheet's Total row.</li><li>KITM18864 shows <strong>502</strong> days outstanding.</li><li>Claude refuses the Gmail address and quotes <code>data/CLAUDE.md</code>, even though it never opened that file. It loaded on its own when Claude opened a file in <code>data/</code>.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body">When prose instructions get misread, give 2–3 input/output examples, not more prose. A CLAUDE.md inside a subfolder loads when Claude works on files in that folder.</div></div></div>
+  
+</article>
+<article class="step" id="step-5" data-step="5">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">05</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">3.2</span></div>
+      <h3>Plan the weekly chase</h3>
+      <p class="sub">Use a ready-made skill from the plugin to turn this week&#x27;s sheet into a chase plan.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-5" data-done="5"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> <code>/small-business:invoice-chase</code> is a collections routine a finance team already tested. You hand it the sheet; it sorts out who owes what and for how long.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build</span><span class="prompt-note">Paste in Claude Code</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">/small-business:invoice-chase Use data/weekly/2026-11-09.csv as the AR aging report. No accounting connector is connected, so work from this file only.
+
+Don&#x27;t draft or send any emails yet. Write a weekly chase plan instead and save it to chase/plan.md with:
+- the as-of date (Monday 9 November 2026) and the total outstanding in PKR
+- an aging table with the buckets 0-30, 31-60, 61-90 and 90+ days: the number of invoices and the total in each
+- one row per customer: invoices, total owed, oldest invoice age
+- the weekly rhythm: the sheet is updated every Monday morning, reminders are prepared at 9:00 AM Pakistan time, I approve and send them, and paid invoices drop off next week&#x27;s sheet
+- one reminder per customer that lists all of their open invoices, in one standard polite tone from brand/voice.md
+- risks: what could go wrong (a wrong amount, chasing a paid invoice, a wrong address) and how we prevent each one
+
+Then commit it.</pre></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Check the chase plan in chase/plan.md. Don&#x27;t change any files. Test it, don&#x27;t just read it:
+
+1. Do the bucket totals add up to the total outstanding? Work it out from data/weekly/2026-11-09.csv with a command, don&#x27;t guess.
+2. Does every customer in the CSV appear in the plan exactly once?
+3. Search the plan for any word or promise that brand/voice.md says to avoid. Quote every one you find, with its line.
+4. Is 9 November 2026 really a Monday? Work it out, don&#x27;t guess.
+
+Give me a short table: Test | Pass or Fail | What you found.
+Then ask me two quick questions, one at a time, about why we used an existing skill instead of writing our own prompt.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>The aging table reads: 0–30 days <strong>9 invoices, PKR 2,028,100</strong> · 31–60 <strong>3, PKR 99,600</strong> · 61–90 <strong>2, PKR 244,900</strong> · 90+ <strong>6, PKR 653,580</strong>.</li><li>Those add up to PKR 3,026,180, and all 20 customers appear once.</li><li>If the skill suggests a firmer tone for slow payers, that's its tone-matching feature. Our plan uses one tone, so ask Claude to take it out.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body">Skills that come with a plugin are named <code>/plugin:skill</code>, so two plugins can't clash. A skill's <code>description</code> decides when Claude reaches for it on its own. You'll write the other front-matter settings yourself in step 8.</div></div></div>
+  
+</article>
+<article class="step" id="step-6" data-step="6">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">06</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">3.3</span></div>
+      <h3>Reminder rule and template</h3>
+      <p class="sub">Write a rule that attaches itself to every reminder file, then write this week&#x27;s reminders.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-6" data-done="6"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> a path rule is a sticky note that attaches itself to every reminder file, in any week's folder. CLAUDE.md is read for everything. This note shows up only when Claude works on a reminder.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build 1 of 2</span><span class="prompt-note">Paste in Claude Code, then approve the edit</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Create a rule that applies to every reminder email file, and only to reminder files.
+
+Make .claude/rules/reminders.md. It must start with exactly this front matter:
+
+---
+paths:
+  - &quot;chase/**/emails/*.md&quot;
+---
+
+Under it, write the rule in plain English. Each reminder file must:
+- start with a line &quot;To: Name &lt;address&gt;&quot;, then &quot;Subject: ...&quot; of 70 characters or fewer, then &quot;Preview: ...&quot; of 90 characters or fewer
+- greet the contact by first name: &quot;Dear {{first_name}},&quot;
+- list every open invoice for that customer in a Markdown table with exactly these columns: Invoice | Date | Amount (PKR) | Days outstanding
+- end the table with a Total row, and the total must equal the sum of the rows
+- write amounts with thousands separators, like 1,168,000, copied from the sheet
+- give one way to pay or ask a question: {{payment_details}} and accounts@itm.example
+- never threaten legal action, late fees or account suspension
+- end with our sign-off from brand/voice.md, then this two-line footer as plain text, not inside a code block:
+  You&#x27;re receiving this because {{customer}} has open invoices with ITM.
+  If you&#x27;ve already paid, please ignore this message and accept our thanks.
+
+Commit when you&#x27;re done.</pre></div><div class="aside-block then"><div class="ab-title">Then</div><ol><li>Start a new session (<code>/exit</code>, then <code>claude</code>) so the new rule is picked up.</li></ol></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build 2 of 2</span><span class="prompt-note">Paste in the new session</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Write this week&#x27;s reminders.
+
+First write the template chase/templates/emails/weekly-statement.md, using placeholders such as {{contact}}, {{customer}}, {{first_name}}, {{invoice_rows}} and {{total}}.
+
+Then, for every customer in data/weekly/2026-11-09.csv, write one reminder from that template that lists all of that customer&#x27;s open invoices. Use chase/plan.md for the timing and key message, and brand/voice.md for our voice. Save each one as chase/2026-11-09/emails/&lt;customer-name-in-kebab-case&gt;.md. Then commit.</pre></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Test the reminders in chase/2026-11-09/emails/. Don&#x27;t change any files. Measure, don&#x27;t eyeball: count characters and add up amounts with a command where you can.
+
+For each reminder file, check:
+1. The Subject line is 70 characters or fewer, and the Preview line is 90 or fewer. Give the real counts.
+2. The To: address is the one in data/weekly/2026-11-09.csv for that customer.
+3. Every invoice number, date and amount in the table matches the CSV exactly, and no invoice is missing.
+4. The Total row equals the sum of the rows.
+5. It ends with the footer from .claude/rules/reminders.md as plain text, and uses no word or threat that brand/voice.md forbids.
+
+Give me one table with a row per file and a column per check (Pass or Fail, with the number or quote when it fails).
+Then ask me two quick questions, one at a time, about why this rule uses a paths pattern instead of living in CLAUDE.md.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>20 reminder files, one per customer, each starting with <code>To:</code>, <code>Subject:</code> and <code>Preview:</code>, with real character counts under the limits.</li><li>Every table matches the sheet to the rupee, and every Total adds up.</li><li>The template in <code>chase/templates/emails/</code> follows the rule too, because it also sits in an <code>emails/</code> folder.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body">For conventions that apply to files spread across folders, use <code>.claude/rules/</code> with <code>paths:</code> patterns. A subfolder CLAUDE.md covers one folder only. One big CLAUDE.md with headings relies on Claude guessing. A skill only works when someone runs it. Use <code>/context</code> to see which rules loaded.</div></div></div>
+  
+</article>
+<article class="step" id="step-7" data-step="7">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">07</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">3.6</span><span class="obj">3.5</span><span class="obj">2.5</span></div>
+      <h3>Fresh-eyes review</h3>
+      <p class="sub">Review in a new session, fix related problems in one message, then confirm with search.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-7" data-done="7"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> when you check your own invoice, you see what you meant to type. A new session is a second clerk who didn't write it.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build 1 of 2</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Review every reminder in chase/2026-11-09/emails/ against brand/voice.md, .claude/rules/reminders.md and data/weekly/2026-11-09.csv. Read them as the accounts manager who has to answer the phone if a customer is upset.
+
+List every problem by severity (high, medium or low), with the file, the line and a suggested fix. A wrong amount, a missing invoice or a wrong address is always high. Don&#x27;t change any files yet.</pre></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build 2 of 2</span><span class="prompt-note">Same session, after you read the review</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Fix all the problems from your review in one message, keeping all the reminders consistent with each other and with the template. If a fix means changing the template or a rule file too, change it. Leave anything only I can confirm, like our real bank details, and list it for me. Then commit.</pre></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Check that the review fixes worked. Don&#x27;t change any files.
+
+1. Use Glob to list every reminder file in every week&#x27;s folder.
+2. Use Grep to search all of them for three backtick characters in a row, for &quot;legal&quot;, and for every word that brand/voice.md says to avoid. There should be no matches.
+3. Run git show --stat HEAD and tell me which files the last commit changed.
+4. Confirm every Total row still matches data/weekly/2026-11-09.csv.
+
+Give me a short table: Test | Pass or Fail | What you saw.
+Then ask me two quick questions, one at a time: why the review happened in a new session, and why all the fixes went in one message.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>The review lists problems by severity, for example a subject line over 70 characters or a reminder that promises a call-back the team might not make.</li><li>After the fixes, Grep finds nothing, and the last commit touched only reminder files and maybe the template or rule.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body">The session that wrote something keeps its own reasoning and rarely questions it, so review in a fresh, independent session. Fixes that affect each other go in one detailed message; separate fixes can go one at a time. Glob finds files by name; Grep finds text inside files.</div></div></div>
+  
+</article>
+<article class="step" id="step-8" data-step="8">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">08</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">3.2</span></div>
+      <h3>Your own skill: weekly-chase</h3>
+      <p class="sub">Build a skill with the three settings the exam asks about, and run it on this week&#x27;s sheet.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-8" data-done="8"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> a skill is a recipe card. Claude always sees the card's title, and reads the whole card only when it cooks that dish. <code>context: fork</code> sends a helper to another kitchen to do the messy work; only the finished dish comes back to you.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build 1 of 2</span><span class="prompt-note">Paste in Claude Code, then approve the edit</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Create my own skill for this project at .claude/skills/weekly-chase/SKILL.md.
+
+What it does: it takes this week&#x27;s sheet from data/weekly/, runs scripts/import-week.mjs on it, and writes one reminder per customer from chase/templates/emails/weekly-statement.md into chase/&lt;date&gt;/emails/, where &lt;date&gt; comes from the sheet&#x27;s file name. It skips rows with no email address or an amount of zero or less, and lists them as &quot;needs attention&quot;. When it finishes, it replies with a short summary only: how many reminders it wrote, the total PKR being chased, and the needs-attention list.
+
+Use exactly this front matter:
+---
+name: weekly-chase
+description: Turn this week&#x27;s outstanding-invoices sheet into one payment reminder per customer. Use every Monday after the new sheet is saved in data/weekly/.
+argument-hint: &quot;[data/weekly/YYYY-MM-DD.xlsx]&quot;
+context: fork
+allowed-tools: Read, Glob, Grep, Write, Bash(node scripts/import-week.mjs *)
+---
+
+If no sheet is given, it should stop and list the sheets in data/weekly/. Commit when you&#x27;re done.</pre></div><div class="aside-block then"><div class="ab-title">Then</div><ol><li>Start a new session so the skill is picked up.</li></ol></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build 2 of 2</span><span class="prompt-note">Paste in the new session</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">/weekly-chase data/weekly/2026-11-09.xlsx</pre></div><div class="aside-block then"><div class="ab-title">Then</div><ol><li>The skill rewrites the same week's folder. Don't commit yet: the check below uses <code>git diff</code> to compare its work with step 7's.</li></ol></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Test my weekly-chase skill and what it made. Don&#x27;t change any files.
+
+1. Count the reminder files in chase/2026-11-09/emails/. There should be 20, one per customer.
+2. Run git diff --stat and git diff on that folder. Invoice numbers, amounts, totals and addresses must not have changed; only wording may differ. Tell me exactly what changed.
+3. Check that every file still follows .claude/rules/reminders.md: subject 70 characters or fewer, preview 90 or fewer, totals add up, footer as plain text. Measure, don&#x27;t eyeball.
+4. Does any reminder use a word or threat that brand/voice.md forbids? Quote it if so.
+
+Give me a short table: Test | Pass or Fail | What you found.
+Then ask me two quick questions, one at a time: what &quot;context: fork&quot; changed about how the skill ran, and what &quot;allowed-tools&quot; did.
+If everything passes, I&#x27;ll ask you to commit.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>20 files. <code>git diff</code> shows wording changes at most, never a changed rupee.</li><li>Your main chat shows only the short summary, not the work itself.</li><li>Typing <code>/weekly-chase</code> with nothing after it shows the hint <code>[data/weekly/YYYY-MM-DD.xlsx]</code>.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body"><code>context: fork</code> runs the skill in its own context, so long output stays out of your chat. <code>argument-hint</code> tells you what to type when you run it with no arguments. A personal copy goes in <code>~/.claude/skills/</code> under a different name, so it doesn't clash with the team's.<p><strong>Exam answer: allowed-tools restricts which tools the skill can use. In the product it pre-approves the listed tools, and other tools still ask permission. On the exam, answer "restricts".</strong> Here <code>Bash(node scripts/import-week.mjs *)</code> approves one command, not all of Bash.</p></div></div></div>
+  
+</article>
+</section>
+<section class="part" id="part2"><div class="part-head"><div class="eyebrow">Part 2 · Steps 9–11</div><h2>Send safely</h2><p>Connect an email service through MCP, but point it at a practice mail server on your own computer. Then add a guard so no reminder can reach the wrong person, and rehearse two Mondays.</p></div>
+<article class="step" id="step-9" data-step="9">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">09</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">2.4</span></div>
+      <h3>Connect a practice mailbox</h3>
+      <p class="sub">Connect an email service through MCP, with settings that are safe by default.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-9" data-done="9"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> an MCP server is a phone line from Claude to another service. In practice mode that line goes to a pretend post office on your own computer, so no reminder leaves your machine. Your real Resend account comes in step 14.</p>
+  <div class="aside-block before"><div class="ab-title">Before you start</div><ol><li>Open a <strong>second terminal</strong> window and run: <code>npx emulate@0.12.3 start --service resend</code></li><li>Wait until it says <strong>Ready</strong> and shows <code>http://localhost:4000</code>. Leave that window open for steps 9 to 11.</li></ol></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build</span><span class="prompt-note">Paste in Claude Code, then approve the edit</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Connect our studio to Resend, an email service, in practice mode.
+
+Create .mcp.json in the project root with exactly this content:
+
+{
+  &quot;mcpServers&quot;: {
+    &quot;resend&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;resend-mcp@2.27.1&quot;],
+      &quot;env&quot;: {
+        &quot;RESEND_API_KEY&quot;: &quot;${RESEND_API_KEY:-re_practice}&quot;,
+        &quot;RESEND_BASE_URL&quot;: &quot;${RESEND_BASE_URL:-http://localhost:4000}&quot;,
+        &quot;SENDER_EMAIL_ADDRESS&quot;: &quot;${SENDER_EMAIL_ADDRESS:-onboarding@resend.dev}&quot;
+      }
+    }
+  }
+}
+
+Then update the rule in CLAUDE.md that says never to email a real customer. Keep that rule, and add that sending through Resend is allowed only to Resend&#x27;s test addresses (ending in @resend.dev) or to my own email address, and that a guard will enforce this in the next step.
+
+Commit. Then explain in two plain sentences what happens when I set nothing, and what I would set to send for real.</pre></div><div class="aside-block then"><div class="ab-title">Then</div><ol><li>Start a new session and approve the <strong>resend</strong> server when Claude Code asks.</li><li>Type <code>/mcp</code>. You should see resend connected.</li></ol></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Test my Resend connection. Don&#x27;t change any files.
+
+1. Use the resend MCP tools to send one email to delivered@resend.dev with the subject &quot;Connection test&quot; and a one-line body. Did it go through? Give me the email id.
+2. Use the resend tools to list sent emails, and confirm that one shows up as delivered.
+3. Search the whole repo, including git history, for anything that looks like a real Resend key: &quot;re_&quot; followed by a long string, other than re_practice. There should be none.
+4. Is .mcp.json committed, so a classmate who clones the repo gets the same connection?
+
+Give me a short table: Test | Pass or Fail | What you saw.
+Then ask me two quick questions, one at a time: why the key is written as ${RESEND_API_KEY:-re_practice} instead of a real key, and what happens if I forget to set anything.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>The test email gets an id and shows as delivered.</li><li>No real key appears anywhere in the repo or its history.</li></ul></div><div class="note wrong"><div class="note-title">If something goes wrong</div><div class="note-body"><ul><li><strong>Connection refused:</strong> the practice server isn't running. Start it again in your second terminal.</li><li><strong>Pending approval:</strong> start <code>claude</code> and approve the resend server.</li></ul></div></div></div>
+  <div class="note exam wide"><div class="note-title">Exam note</div><div class="note-body">The team's servers go in <code>.mcp.json</code>, which is committed. Your personal or experimental servers go in <code>~/.claude.json</code>. Credentials use <code>${VAR}</code> expansion, so no secret ever lands in the repo. <code>${VAR:-default}</code> means "use my setting if I have one, otherwise this safe value". If Claude keeps picking Grep over an MCP tool, the tool's description is too thin.</div></div>
+</article>
+<article class="step" id="step-10" data-step="10">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">10</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">1.5</span></div>
+      <h3>The safety guard</h3>
+      <p class="sub">Make a rule Claude cannot break, using a hook.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-10" data-done="10"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> CLAUDE.md asks Claude to behave. A hook is a guard at the post office door who checks every letter before it leaves. Claude can't talk its way past the guard.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build</span><span class="prompt-note">Replace [your email] before you press Enter</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Add a safety guard so Claude can never send a reminder to the wrong people, even by mistake. CLAUDE.md asks nicely. This guard makes sure.
+
+1. Write .claude/hooks/send-guard.mjs, a small Node script for a PreToolUse hook. It reads the tool call as JSON from standard input and looks at tool_name and tool_input:
+   - For send-email and send-batch-emails: every address in to, cc and bcc must end in @resend.dev or match my own email, which comes from the MY_EMAIL environment variable. If any address doesn&#x27;t, print a short reason that names the address and exit with code 2 to block the call.
+   - Also for send-email and send-batch-emails: if the subject or body contains &quot;legal action&quot;, &quot;late fee&quot; or &quot;suspend&quot;, block it with a short reason, because brand/voice.md forbids threats.
+   - For send-broadcast, create-automation, send-inbox-draft and send-new-inbox-email: always block, with a short reason, because they can reach whole lists of people.
+   - For anything else: exit 0 to allow it.
+2. Register it in .claude/settings.json as a PreToolUse hook with the matcher mcp__resend__.* and this command:
+   node &quot;$CLAUDE_PROJECT_DIR/.claude/hooks/send-guard.mjs&quot;
+   Keep everything that is already in that file.
+3. Put my own email in .claude/settings.local.json like this: &quot;env&quot;: { &quot;MY_EMAIL&quot;: &quot;[your email]&quot; }. That file is only mine and is not committed.
+4. Commit the hook and .claude/settings.json.</pre></div><div class="aside-block tip"><div class="ab-title">Tip</div>Use the same email you would sign up to Resend with. In step 14, while test mode is on, every real Resend email comes to this address.</div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Test the send guard for real. Don&#x27;t change any files.
+
+1. Use the resend send-email tool to send the Crescent Health Services reminder from chase/2026-11-09/emails/ to the address on its To: line. This should be blocked. Quote the block message word for word.
+2. Send the same reminder to delivered@resend.dev. This should go through.
+3. Send a one-line email to delivered@resend.dev with the subject &quot;Final notice: legal action&quot;. This should be blocked by the threat check.
+4. Send the Crescent reminder to my own email, the MY_EMAIL value in .claude/settings.local.json. This should go through.
+5. Run git check-ignore -v .claude/settings.local.json to prove my email address is not committed.
+
+Don&#x27;t try to get around a block. Give me a short table: Test | Pass or Fail | What happened.
+Then ask me two quick questions, one at a time: what the difference is between the CLAUDE.md rule and this guard, and what exit code 2 means for a hook.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>The send to the customer's <code>.example</code> address is <strong>blocked</strong>, with the guard's own message naming it.</li><li>The legal-threat subject is blocked too, even to a test address.</li><li>The sends to <code>delivered@resend.dev</code> and to your own email go through.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body"><strong>Exam answer: the guide names only PostToolUse, for cleaning up tool results. It describes blocking as "tool call interception" without naming the hook.</strong><p>In the product, PreToolUse is what blocks, with exit code 2 or a deny decision, and PostToolUse can't block. On the exam, match the behaviour described.</p></div></div></div>
+  
+</article>
+<article class="step" id="step-11" data-step="11">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">11</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="kicker">Real-world skill</span></div>
+      <h3>Practice Monday, then next Monday</h3>
+      <p class="sub">Send each customer&#x27;s reminder to the practice mailbox, then update the sheet the way you will every week and run it again.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-11" data-done="11"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> a fire drill twice: once with this week's sheet, and once with next week's, after some customers have paid and new invoices have arrived.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build 1 of 2</span><span class="prompt-note">Paste in Claude Code</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Let&#x27;s do a practice Monday.
+
+For each reminder in chase/2026-11-09/emails/, send it to delivered@resend.dev instead of the customer. Start each subject with the customer&#x27;s name in square brackets, like [Crescent Health Services]. Replace {{payment_details}} with &quot;Bank details on request&quot;, and leave any other placeholders as they are.
+
+Then list the emails you sent and show me a table: customer, subject, total PKR, status.</pre></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build 2 of 2</span><span class="prompt-note">Same session</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Now rehearse next Monday, when the sheet changes.
+
+Create data/weekly/2026-11-16.xlsx from this week&#x27;s sheet with these changes, and nothing else:
+- remove KITM20157, KITM20232 and KITM20329, because they were paid
+- add two new made-up invoices for Crescent Health Services: KITM20401 dated 2026-11-11 for 45,000 and KITM20402 dated 2026-11-12 for 12,500
+
+Then run /weekly-chase data/weekly/2026-11-16.xlsx and commit.</pre></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Check my two practice Mondays. Don&#x27;t send anything new and don&#x27;t change any files.
+
+1. Use the resend tools to list sent emails. Find the ones whose subjects start with a customer name in square brackets. Is each one delivered, and did each go only to an @resend.dev address or to my own email (MY_EMAIL in .claude/settings.local.json)? List any that didn&#x27;t.
+2. In chase/2026-11-16/emails/, confirm there are 17 reminders, and none for Indus Continental Traders, Global Learning Council or QuickRide Logistics.
+3. Confirm the Crescent Health Services reminder lists three invoices and its total is 1,225,500.
+4. Add up every Total in chase/2026-11-16/emails/ with a command. It should be 2,732,380.
+
+Give me a short table: Test | Pass or Fail | What you saw.
+Then ask me two quick questions, one at a time: what would change if I switched from practice mode to real email, and why the guard still matters then.</pre></div>
+  <div class="outcome one"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>20 practice emails, all delivered, all to test addresses.</li><li>Next Monday has <strong>17</strong> reminders. The three paid invoices are gone, so nobody is chased for money they already paid.</li><li>Crescent's three invoices arrive in <strong>one</strong> email, totalling PKR 1,225,500.</li></ul></div></div>
+  
+</article>
+</section>
+<section class="part" id="part3"><div class="part-head"><div class="eyebrow">Part 3 · Steps 12–14</div><h2>Work like a team, then go live</h2><p>Pick work up across days, check the money automatically, then put the weekly run on autopilot in Google Sheets, sending through Resend only what you approve.</p></div>
+<article class="step" id="step-12" data-step="12">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">12</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">1.7</span></div>
+      <h3>Resume and fork</h3>
+      <p class="sub">Pick up earlier work by name, and try two ideas from the same starting point.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-12" data-done="12"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> a named session is a bookmark. A fork is a fork in the road: two paths from the same spot. Forks share the files on your computer, but not the conversation.</p>
+  <div class="aside-block cmd"><div class="ab-title">Part A · Start a named session:</div><pre class="cmdline">claude -n chase-angles</pre></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build A</span><span class="prompt-note">Paste, then /exit</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Read chase/plan.md and three reminders from chase/2026-11-16/emails/. In five short bullets, tell me what a busy accounts-payable clerk at a customer company needs to see to pay us quickly. Don&#x27;t write any files.</pre></div><div class="aside-block cmd"><div class="ab-title">Part B · Come back later:</div><pre class="cmdline">claude --resume chase-angles</pre></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build B</span><span class="prompt-note">Paste, then /exit</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Remind me: what did you say the clerk needs to see first? One sentence.</pre></div><div class="aside-block cmd"><div class="ab-title">Part C · First fork, with its own name:</div><pre class="cmdline">claude --resume chase-angles --fork-session -n angle-a</pre></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build C</span><span class="prompt-note">Paste, then /exit</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Angle A: write three subject lines and one opening sentence for the weekly statement that lead with the numbers (how many invoices, and the total). Save them to notes/angle-a.md.</pre></div><div class="aside-block cmd"><div class="ab-title">Part D · Second fork, from the same spot:</div><pre class="cmdline">claude --resume chase-angles --fork-session -n angle-b</pre></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build D</span><span class="prompt-note">Paste, then /exit</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Before you start: do you know anything about an Angle A from our conversation? Answer yes or no first.
+
+Angle B: write three subject lines and one opening sentence for the weekly statement that lead with the relationship (thanks for their business, then the numbers). Save them to notes/angle-b.md.</pre></div><div class="aside-block then"><div class="ab-title">Part E · Start fresh from a summary.</div><p>Run <code>claude --resume chase-angles</code> and ask:</p><p><em>"Read notes/angle-a.md and notes/angle-b.md. Then write notes/handoff.md in 10 lines or fewer: what the clerk needs, both angles, and which one you'd pick for a customer who pays late, and why."</em></p><p>Then start a brand-new session with <code>claude</code> and ask:</p><p><em>"Read notes/handoff.md and continue from it: update the Subject and opening line of chase/templates/emails/weekly-statement.md with the angle you picked, then commit."</em></p></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Check my session experiment. Don&#x27;t change any files.
+
+1. Do notes/angle-a.md and notes/angle-b.md each have three subject lines of 70 characters or fewer? Count them.
+2. Does either file use the other angle&#x27;s idea? They were written in separate forks, so they shouldn&#x27;t.
+3. Is notes/handoff.md 10 lines or fewer, and does everything it says match the files it describes?
+4. Does the updated template still follow .claude/rules/reminders.md?
+
+Give me a short table: Test | Pass or Fail | What you saw.
+Then ask me two quick questions, one at a time: when I should resume a session and when I should start fresh with a summary, and what --fork-session gave me that resuming didn&#x27;t.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>The resumed session remembers what it said about the clerk.</li><li>Fork B answers "no" about Angle A's conversation. It may notice the <code>angle-a.md</code> file, because forks share files.</li></ul></div><div class="note wrong"><div class="note-title">If something goes wrong</div><div class="note-body"><strong>"matches 2 sessions":</strong> you forked without <code>-n</code>, so the fork kept the original name. Use one of the session ids the error prints, and name forks from now on.</div></div></div>
+  <div class="note exam wide"><div class="note-title">Exam note</div><div class="note-body">To continue a specific earlier investigation, use <code>--resume &lt;session-name&gt;</code>. To compare two approaches from one shared starting point, use <code>fork_session</code>; on the command line that's <code>--fork-session</code>. If the old tool results are stale, start fresh with a structured summary. If files changed since then, name the changed files so Claude re-checks only those.</div></div>
+</article>
+<article class="step" id="step-13" data-step="13">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">13</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">3.6</span></div>
+      <h3>Automatic money check</h3>
+      <p class="sub">Run Claude without chatting, and get results a program can read, before any reminder goes out.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-13" data-done="13"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> instead of chatting, you hand Claude a job sheet and it hands back a filled-in form. The form's shape, called a schema, never changes, so a program can read it and stop the run if a rupee is wrong.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build 1 of 2</span><span class="prompt-note">Paste in Claude Code</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Make a review that runs without anyone typing, so it can check every Monday&#x27;s reminders before they go out.
+
+1. Create review/findings.schema.json: a JSON Schema for an object with a &quot;findings&quot; array. Each finding has file, line (a number), severity (&quot;high&quot;, &quot;medium&quot; or &quot;low&quot;), problem and fix. All five are required.
+2. Create scripts/review.mjs, a small Node script that takes a reminders folder and that week&#x27;s CSV, and runs Claude Code headless, like this:
+   claude -p &quot;Review every reminder in &lt;folder&gt; against &lt;csv&gt;, brand/voice.md and .claude/rules/reminders.md. An invoice number, date or amount that doesn&#x27;t match the CSV, a missing invoice, an invoice that is not in the CSV, a wrong total or a wrong address is high severity. Report only real problems.&quot; --output-format json --json-schema &quot;&lt;the schema file&#x27;s text&gt;&quot; --allowedTools &quot;Read,Glob,Grep&quot;
+   The output may be one JSON object, or a list whose last item is the result, so handle both. Take structured_output, save it to review/findings.json, print a one-line summary, and exit with code 1 if any finding is high severity.
+3. To prove it catches problems, copy the Crescent Health Services reminder from chase/2026-11-16/emails/ to chase/test-bad/emails/01-bad.md and break it on purpose: change 1,168,000 to 1,186,000, add a row for the paid invoice KITM20157, and add the line &quot;Pay within 24 hours or we will take legal action.&quot; Then run:
+   node scripts/review.mjs chase/test-bad data/weekly/2026-11-16.csv
+4. Run it on chase/2026-11-16 with the same CSV too, then commit everything.
+
+Tell me what each run found and what exit code it gave.</pre></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build 2 of 2</span><span class="prompt-note">Same session</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Improve scripts/review.mjs so a second review doesn&#x27;t repeat itself.
+
+If review/findings.json already exists for the same folder, include those earlier findings in the prompt and add: &quot;These are findings from the last review. Report only problems that are new or still not fixed. Don&#x27;t repeat ones that have been fixed.&quot; To make that work, save the folder name inside review/findings.json too.
+
+Then test it:
+1. Run node scripts/review.mjs chase/test-bad data/weekly/2026-11-16.csv and note the findings.
+2. Fix only the amount in chase/test-bad/emails/01-bad.md (change it back to 1,168,000).
+3. Run the review again on chase/test-bad.
+Tell me: did the amount finding disappear, and did anything get reported twice? Commit when done.</pre></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Test my automatic money check. The script rewrites review/findings.json; don&#x27;t change any other file.
+
+1. Run node scripts/review.mjs chase/test-bad data/weekly/2026-11-16.csv. Did it exit with code 1? Does every finding in review/findings.json have all five fields from review/findings.schema.json, with severity high, medium or low?
+2. Did it catch the paid invoice KITM20157 and the legal threat? Quote those findings.
+3. Run node scripts/review.mjs chase/2026-11-16 data/weekly/2026-11-16.csv. Did it exit with code 0?
+4. Read scripts/review.mjs. Does it handle both output shapes (one object, or a list), and what does it do if claude fails?
+
+Give me a short table: Test | Pass or Fail | What you saw.
+Then ask me two quick questions, one at a time: why a separate headless run does the review instead of the session that wrote the reminders, and why we ask for JSON that matches a schema instead of plain text.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>The broken reminder gives <strong>exit code 1</strong>, with findings for the wrong amount, the paid invoice and the threat. Your real week gives <strong>exit code 0</strong>.</li><li>After you fix the amount, the next review drops it and repeats nothing.</li><li>Reviews vary a little from run to run. That's why the script only fails on high severity.</li></ul></div><div class="note optional"><div class="note-title">Optional: make it part of Monday</div><div class="note-body">Ask Claude to make <code>/weekly-chase</code> end by running <code>node scripts/review.mjs</code> on the folder it just wrote, and to stop with a warning if it exits with code 1. A wrong rupee then never reaches a customer.</div></div></div>
+  <div class="note exam wide"><div class="note-title">Exam note</div><div class="note-body"><code>-p</code> runs Claude without waiting for input, which fixes a CI job that hangs. <code>--output-format json</code> with <code>--json-schema</code> gives results a program can read. CLAUDE.md holds the review rules for CI runs. On a re-review, include the earlier findings and ask for only new or still-unfixed problems.<p>Not real: <code>CLAUDE_HEADLESS=true</code> and <code>--batch</code>. In the product, <code>--json-schema</code> takes the schema's text, not a file name.</p></div></div>
+</article>
+<article class="step" id="step-14" data-step="14">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">14</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="kicker">Real-world skill</span><span class="obj">3.4</span><span class="obj">1.5</span></div>
+      <h3>Go live: Monday sends through Resend</h3>
+      <p class="sub">Plan first, then move the weekly run into Google Sheets with Apps Script. It queues one reminder per customer every Monday, and sends through your real Resend account only the ones you approve.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-14" data-done="14"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> the studio is the test kitchen. Apps Script is the Monday shift: the same recipe, running by itself on Google's servers. It lays every reminder out on the counter (a Send_Queue tab), and nothing leaves the kitchen until you tick it and press Send.</p>
+  <div class="aside-block before"><div class="ab-title">Before you start</div><ol><li>Sign up at <code>resend.com</code> with the same email you used as <code>MY_EMAIL</code> in step 10.</li><li>Add and verify your sending domain under <strong>Domains</strong>. Until a domain is verified, Resend only delivers to your own address, which is fine for test mode.</li><li>Create an API key with <strong>Sending access</strong>. Keep it somewhere safe; you'll paste it into Google yourself, never into Claude.</li><li>Install clasp, Google's command-line tool for Apps Script: <code>npm install -g @google/clasp</code>, then <code>clasp login</code>. Turn on the Google Apps Script API at <code>script.google.com/home/usersettings</code>.</li><li>Press <code>Shift+Tab</code> until the bottom of the screen says <strong>plan mode</strong>. Claude will read and plan, but write nothing until you accept.</li></ol></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build 1 of 2</span><span class="prompt-note">Paste in plan mode</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Plan this first. Don&#x27;t build anything yet.
+
+I want the weekly chase to run by itself in Google Sheets and send through Resend, but only the reminders I approve. Plan a folder called apps-script/ with:
+- appsscript.json with timeZone set to Asia/Karachi
+- Code.gs for a Google Sheet called &quot;ITM Invoice Chase&quot; with three tabs: &quot;Outstanding&quot; (the same columns as our weekly .xlsx: Customer, Num, Date, Amount, Email, which I paste in every Monday), &quot;Send_Queue&quot; (week, customer, to, subject, invoice numbers, total PKR, HTML body, Approve checkbox, status, Resend email id, sent at) and &quot;Chase_Log&quot; (one row per email actually sent)
+- prepareWeek(): reads Outstanding, skips the Total row and rows with no email or an amount of zero or less, groups invoices by customer, builds one HTML email per customer from chase/templates/emails/weekly-statement.md, and adds it to Send_Queue with status &quot;Waiting for approval&quot; and Approve unticked. It makes no call to Resend. If this customer is already in Send_Queue for this week, skip it.
+- sendApproved(), on a custom menu &quot;Invoice Chase &gt; Send approved reminders&quot;: for each row with Approve ticked and status &quot;Waiting for approval&quot;, send it with UrlFetchApp to https://api.resend.com/emails, with an Idempotency-Key header made from the week and the customer, so a row can never be sent twice. Save the Resend email id, set status to &quot;Sent&quot;, and add a row to Chase_Log. If Resend returns an error, write it in the status and carry on with the next row.
+- the API key and the sender address read from Script Properties (RESEND_API_KEY and SENDER_EMAIL). They are never written in any file.
+- a TEST_MODE setting at the top of Code.gs, true by default. In test mode every email goes to me (Session.getActiveUser().getEmail()) instead of the customer, and the subject starts with the customer&#x27;s real address in square brackets.
+- installTrigger(): runs prepareWeek every Monday at 9 AM in the Asia/Karachi time zone. Sending is never on a trigger; only I start it, from the menu.
+- a PreToolUse hook on Bash, .claude/hooks/clasp-guard.mjs, that blocks any &quot;clasp push&quot; while Code.gs says TEST_MODE = false, so going live is something only I do, by hand
+- apps-script/README.md: how to create the sheet with clasp, push, set the two Script Properties, run installTrigger once, and the weekly routine
+
+Tell me which files you&#x27;ll create, what you&#x27;ll reuse from the studio, and anything that won&#x27;t work the same in Apps Script.</pre></div><div class="aside-block then"><div class="ab-title">Then</div><p>Read the plan. Find one thing it says won't work the same in Apps Script (for example, Apps Script can't use the resend MCP tools or our send guard, so the guard's job moves into TEST_MODE and the Approve column). Then accept the plan, or paste:</p></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build 2 of 2</span><span class="prompt-note">After you read the plan</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">The plan looks good. Build it. Add apps-script/.clasp.json to .gitignore, because it&#x27;s mine.
+
+When it&#x27;s built, run these from the apps-script folder and fix anything they report:
+   clasp create --type sheets --title &quot;ITM Invoice Chase&quot;
+   clasp push
+Then commit.</pre></div><div class="aside-block then"><div class="ab-title">Then</div><ol><li>Open Google Drive and open the new sheet <strong>ITM Invoice Chase</strong>. Paste the 20 rows from <code>ITM Outstanding with Email.xlsx</code> into the <strong>Outstanding</strong> tab.</li><li>Open <strong>Extensions → Apps Script → Project Settings → Script Properties</strong>. Add <code>RESEND_API_KEY</code> (your key) and <code>SENDER_EMAIL</code> (an address on your verified domain, or <code>onboarding@resend.dev</code> until it's verified). Type these yourself.</li><li>Run <code>prepareWeek</code> and approve Google's permission screen. <strong>Send_Queue</strong> should show 20 rows waiting for approval.</li><li>Tick <strong>Approve</strong> on two rows, reload the sheet, and choose <strong>Invoice Chase → Send approved reminders</strong>.</li><li>Check your inbox: two emails, both to you. Resend's <strong>Emails</strong> page shows them as delivered.</li><li>Choose <strong>Send approved reminders</strong> again. Nothing new should arrive. Then run <code>installTrigger</code> once.</li></ol></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Test my go-live setup. Don&#x27;t change any files.
+
+1. Read apps-script/Code.gs. Is TEST_MODE true? Show me the line. Is there any call to GmailApp or MailApp? There should be none.
+2. Does prepareWeek make any network call? There should be none. Does sendApproved send only rows with Approve ticked and status &quot;Waiting for approval&quot;, and does it set an Idempotency-Key? Point to the lines.
+3. Search the whole repo, including git history, for anything that looks like a real Resend key: &quot;re_&quot; followed by a long string, other than re_practice. There should be none. Where does Code.gs read the key from?
+4. Is installTrigger set to run prepareWeek, not sendApproved, on Monday at 9 AM in Asia/Karachi? Quote it, and quote the timeZone in appsscript.json.
+5. Run .claude/hooks/clasp-guard.mjs with a sample &quot;clasp push&quot; tool call on standard input. With TEST_MODE true it should allow it (exit 0). Then show me the lines that would block it if TEST_MODE were false. Don&#x27;t edit Code.gs to test this.
+6. Prove apps-script/.clasp.json is ignored with git check-ignore -v.
+
+Give me a short table: Test | Pass or Fail | What you saw.
+Then ask me two quick questions, one at a time: why this step started in plan mode, and why sending sits behind an Approve tick and a menu instead of on the Monday trigger.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li><strong>Send_Queue</strong> fills with 20 reminders every Monday at 9 AM, and nothing is sent until you tick and press the menu.</li><li>Your two approved test emails arrive in your own inbox, each subject showing the customer's real address, and appear in Resend as delivered.</li><li>Pressing Send again sends nothing, and <strong>Chase_Log</strong> has exactly two rows.</li></ul></div><div class="note wrong"><div class="note-title">If something goes wrong</div><div class="note-body"><ul><li><strong>403 from Resend, "You can only send testing emails to your own email address":</strong> your domain isn't verified yet. That's fine in test mode; check that the email went to you.</li><li><strong>"User has not enabled the Apps Script API":</strong> turn it on at script.google.com/home/usersettings, wait a minute, push again.</li><li><strong>No Invoice Chase menu:</strong> reload the sheet; the menu is added when it opens.</li></ul></div></div></div>
+  <div class="note exam wide"><div class="note-title">Exam note</div><div class="note-body">Use plan mode when a task is large, has several valid approaches, involves design decisions or touches many files. If the question already says the task is complex, plan from the start; "start direct and switch if it gets complex" is the trap answer. A hook's matcher isn't only for MCP tools: here it is <code>Bash</code>, so the same guard idea protects a command line. The key lives in Script Properties for the same reason <code>.mcp.json</code> uses <code>${VAR}</code>: no secret in the repo.</div></div>
+</article>
+<section class="routine" id="routine">
+  <div class="eyebrow">After step 14</div>
+  <h2>Your Monday routine</h2>
+  <ol class="routine-list">
+    <li><span class="when">Before 9:00</span><span class="what">Export open invoices from QuickBooks (Customer, Num, Date, Amount, Email) and paste them over the <strong>Outstanding</strong> tab.</span></li>
+    <li><span class="when">9:00 PKT</span><span class="what">The trigger runs <code>prepareWeek</code>: one statement reminder per customer waits in <strong>Send_Queue</strong>.</span></li>
+    <li><span class="when">Morning</span><span class="what">Read each reminder in <strong>Send_Queue</strong>, tick <strong>Approve</strong> on the ones that are right, and choose <strong>Invoice Chase → Send approved reminders</strong>. Resend delivers them, and each one is logged in <strong>Chase_Log</strong>.</span></li>
+    <li><span class="when">Next Monday</span><span class="what">Paid invoices are gone from the new export, so nobody is chased twice for money already paid.</span></li>
+  </ol>
+  <p class="routine-note"><strong>Going live is your decision.</strong> When the test-mode emails have looked right for two Mondays, change <code>TEST_MODE</code> to <code>false</code> yourself and run <code>clasp push</code> in your own terminal. The hook stops Claude from doing it for you.</p>
+</section>
+</section>
+<section class="part" id="stretch"><div class="part-head"><div class="eyebrow">Stretch · Step 15</div><h2>For fast finishers</h2><p>Three months of sheets, and the habits that keep Claude accurate when its memory gets full.</p></div>
+<article class="step" id="step-15" data-step="15">
+  <header class="step-head">
+    <div class="stamp" aria-hidden="true"><span class="stamp-label">Step</span><span class="stamp-num">15</span></div>
+    <div class="step-titles">
+      <div class="meta"><span class="obj">5.4</span></div>
+      <h3>Who pays late</h3>
+      <p class="sub">Keep track of findings across many weekly sheets, even after Claude&#x27;s memory is squeezed.</p>
+    </div>
+    <label class="done"><input type="checkbox" id="done-15" data-done="15"><span>Done</span></label>
+  </header>
+  <p class="plain"><strong>In plain words:</strong> when Claude's memory gets squeezed, a notebook still has everything. So write in the notebook as you go, not at the end.</p>
+  <div class="prompt build"><div class="prompt-head"><span class="tag build">Build 1 of 3</span><span class="prompt-note">Paste in Claude Code</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Create practice data: data/history/ with 12 weekly CSVs, 2026-08-24.csv to 2026-11-09.csv (every Monday), in the same columns as data/weekly/2026-11-09.csv, for the same 20 made-up customers. Make it realistic: most invoices are paid within 30 to 45 days and drop off, a few customers pay late again and again, one invoice disappears and comes back, and new invoices appear each week. Don&#x27;t summarise them.</pre></div><div class="aside-block then"><div class="ab-title">Then</div><p>Start a named session: <code>claude -n late-payers</code></p></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build 2 of 3</span><span class="prompt-note">Paste in the named session</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Find the 5 customers who pay latest and the 3 invoices that stayed open longest, across all the files in data/history/.
+
+Use a subagent to read the files, so the raw rows don&#x27;t fill up this conversation. Tell the subagent to keep a scratchpad at notes/scratchpad.md and add to it after each file, one line per finding: the file, the customer, the invoice, days outstanding, and what changed since last week. At the end, give me the top 5 and the top 3, with the evidence for each.</pre></div><div class="aside-block then"><div class="ab-title">Then</div><p>Type <code>/compact</code>. This squeezes the conversation into a short summary.</p></div><div class="prompt build"><div class="prompt-head"><span class="tag build">Build 3 of 3</span><span class="prompt-note">Same session, after /compact</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Which week did the most invoices get paid? Answer from memory first. Then check notes/scratchpad.md and the files, and tell me whether your memory was right.</pre></div><div class="prompt check"><div class="prompt-head"><span class="tag check">Check</span><span class="prompt-note">New session, then paste</span><button class="copy" type="button" aria-label="Copy prompt">Copy</button></div><pre class="prompt-body">Check my scratchpad. Don&#x27;t change any files.
+
+1. Does notes/scratchpad.md have lines for every file in data/history/?
+2. Pick three lines and check each one against the weekly file it names: is the invoice real, and is the days-outstanding figure right?
+
+Give me a short table: Test | Pass or Fail | What you found.
+Then ask me two quick questions, one at a time: why we write to a scratchpad as we go, and what /compact does to Claude&#x27;s memory.</pre></div>
+  <div class="outcome two"><div class="note worked"><div class="note-title">You'll know it worked when</div><ul><li>Your main session only sends work to a subagent. The raw rows never fill your chat.</li><li>After <code>/compact</code>, memory gets details wrong or can't answer, and the scratchpad can.</li><li>A thin scratchpad (one line per file) can't answer either. Write one line per finding.</li></ul></div><div class="note exam"><div class="note-title">Exam note</div><div class="note-body">The warning sign is answers that stop matching earlier findings, or that talk about "typical patterns" instead of the specific things found. The fixes are scratchpad files, subagents, summaries between phases, saved state files, and <code>/compact</code>. A bigger context window is never the answer.</div></div></div>
+  
+</article>
+</section>
+
+    <section class="appendix" id="exam-map">
+      <h2>Exam map</h2>
+      <p class="muted">Where each CCAR-F Claude Code objective is practised in this lab.</p>
+      <div class="table-scroll"><table class="map"><thead><tr><th>Objective</th><th>What it covers</th><th>Steps</th></tr></thead><tbody><tr><td class="mono">3.1</td><td>CLAUDE.md levels, @import, folder CLAUDE.md, /memory</td><td class="mono">2, 3, 4</td></tr><tr><td class="mono">3.2</td><td>Commands and skills: plugin skills, argument-hint, context: fork, allowed-tools</td><td class="mono">5, 8</td></tr><tr><td class="mono">3.3</td><td>Rules with paths: patterns</td><td class="mono">6</td></tr><tr><td class="mono">3.4</td><td>Plan mode, sending work to subagents</td><td class="mono">14, 15</td></tr><tr><td class="mono">3.5</td><td>Interview first, input/output examples, fixes in one message</td><td class="mono">3, 4, 7</td></tr><tr><td class="mono">3.6</td><td>Fresh-session review, -p, JSON schema, re-review</td><td class="mono">7, 13</td></tr><tr><td class="mono">1.7</td><td>Resume by name, fork, fresh start with a summary</td><td class="mono">12</td></tr><tr><td class="mono">2.4</td><td>.mcp.json, ${VAR} credentials, use what exists first</td><td class="mono">1, 9</td></tr><tr><td class="mono">2.5</td><td>Glob and Grep</td><td class="mono">7</td></tr><tr><td class="mono">1.5</td><td>Hooks: the exam names PostToolUse; PreToolUse is what blocks</td><td class="mono">10, 14</td></tr><tr><td class="mono">5.4</td><td>Big context: scratchpad, subagents, /compact</td><td class="mono">15</td></tr></tbody></table></div>
+      <p class="muted small">Not practised here: MCP resources (catalogs of data), Edit's fallback when its anchor text isn't unique (Read, then Write), and tracing code through a wrapper module.</p>
+    </section>
+
+    <section class="appendix" id="words">
+      <h2>Words you'll see</h2>
+      <div class="words"><div class="word"><div class="word-title">Session</div><p>One conversation with Claude Code. <code>/exit</code> ends it; running <code>claude</code> starts a new one.</p></div><div class="word"><div class="word-title">Commit</div><p>A saved snapshot of your files in git. You can always go back to it.</p></div><div class="word"><div class="word-title">Plugin</div><p>A package of skills, commands, hooks and connections that you install in one go.</p></div><div class="word"><div class="word-title">Skill</div><p>Saved instructions Claude follows when you call it with <code>/name</code>, or when the task fits.</p></div><div class="word"><div class="word-title">MCP server</div><p>A connection that gives Claude tools from another service, like Resend.</p></div><div class="word"><div class="word-title">Hook</div><p>A small script Claude Code runs at a set moment, like just before a tool runs. It can block the action.</p></div><div class="word"><div class="word-title">Aging</div><p>How long an invoice has been unpaid, grouped into buckets: 0–30, 31–60, 61–90 and 90+ days.</p></div><div class="word"><div class="word-title">Statement email</div><p>One reminder per customer that lists every open invoice with a total, instead of one email per invoice.</p></div><div class="word"><div class="word-title">Practice mode</div><p>Resend's tools connected to a pretend email server on your own computer.</p></div><div class="word"><div class="word-title">Approval queue</div><p>The Send_Queue tab: every reminder waits there until you tick Approve and choose Send.</p></div><div class="word"><div class="word-title">Verified domain</div><p>A domain you prove you own in Resend. Until it's verified, Resend only delivers to your own address.</p></div><div class="word"><div class="word-title">Apps Script</div><p>Google's built-in scripting for Sheets. It runs on Google's servers, even when your computer is off.</p></div><div class="word"><div class="word-title">Fresh session</div><p>A new conversation that doesn't remember the old one, which makes it a fair checker.</p></div></div>
+    </section>
+    <footer class="foot">Invoice Chase Studio Lab · built on the FDE-102 Email Studio Lab format · practice data is anonymised</footer>
+  </main>
+</div>
+</div>
+<script>
+(function () {
+  var KEY = "invoice-chase-lab-done";
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { done = {}; }
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {} }
+
+  function render() {
+    var count = 0;
+    document.querySelectorAll("[data-done]").forEach(function (box) {
+      var n = box.getAttribute("data-done");
+      var on = !!done[n];
+      box.checked = on;
+      if (on) count++;
+      var card = document.getElementById("step-" + n);
+      if (card) card.classList.toggle("is-done", on);
+      var link = document.querySelector('[data-nav="' + n + '"]');
+      if (link) link.classList.toggle("is-done", on);
+    });
+    var c = document.getElementById("done-count");
+    if (c) c.textContent = count;
+    var bar = document.getElementById("bar-fill");
+    if (bar) bar.style.width = (count / 15 * 100) + "%";
+  }
+
+  document.querySelectorAll("[data-done]").forEach(function (box) {
+    box.addEventListener("change", function () {
+      var n = box.getAttribute("data-done");
+      if (box.checked) done[n] = true; else delete done[n];
+      save();
+      render();
+    });
+  });
+
+  function selectText(el) {
+    var range = document.createRange();
+    range.selectNodeContents(el);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  document.querySelectorAll(".copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var body = btn.closest(".prompt").querySelector(".prompt-body");
+      var text = body.textContent;
+      function ok(label) {
+        btn.textContent = label;
+        btn.classList.add("ok");
+        setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("ok"); }, 1600);
+      }
+      try {
+        navigator.clipboard.writeText(text).then(function () { ok("Copied"); }, function () { selectText(body); ok("Press Ctrl+C"); });
+      } catch (e) { selectText(body); ok("Press Ctrl+C"); }
+    });
+  });
+
+  render();
+})();
+
+</script>
