@@ -59,7 +59,7 @@ Oldest first. Each customer has one open invoice this week.
 - **One reminder per customer.** If a customer has more than one open invoice, all of them go in the same email. This week every customer has exactly one.
 - **Each reminder lists:** every open invoice number, its date and its amount in PKR (copied exactly from the CSV), and the customer's total outstanding balance.
 - **One standard tone:** the polite, professional tone in `brand/voice.md`.
-  - Open with a title and first name, for example "Dear Mr. Imran,". The title is "Mr." by default, "Madam" for a contact confirmed as a woman, and "Dr." where the sheet shows it.
+  - Open with a title and first name, for example "Dear Mr. Imran,". The title is "Mr." by default, "Madam" for a contact confirmed as a woman, and "Doctor", written in full, where the sheet shows "Dr.".
   - Use "outstanding balance" and "Kindly arrange payment of the outstanding balance."
   - Keep it short and direct.
   - End with the standard ITM sign-off, which includes "Should you have any query, please call or email us."
