@@ -1,0 +1,18 @@
+{
+  "findings": [
+    {
+      "file": "chase/2026-11-23/emails/crescent-health-services.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening line doesn't follow the 31-to-90-day / over-90-day wording in .claude/rules/reminders.md. The rule says: \"According to our records on {{as_of}}, the account of {{customer}} has {{invoice_count}} open {{invoices_word}} with an outstanding balance of PKR {{total}}, shown below.\" The draft says \"...has the outstanding balance shown below.\", which leaves out the number of invoices and the PKR total. The same problem is in all 15 drafts whose oldest invoice is over 30 days: airbridge-cargo-services, bytecraft-software-house, city-care-hospital, civic-futures-foundation, codenest-solutions, crescent-health-services, falconridge-security-systems, helix-pharma-pvt-ltd, meridian-freight-pvt-ltd, northwind-supply-chain, oceanic-consolidators, pinnacle-technologies, silverline-enterprises, skyline-aero-consultants, sunrise-leather-works. The two statement drafts (greenleaf-publishers, valley-woollen-mills) are correct.",
+      "fix": "Rewrite line 7 in each of the 15 files to the rule's wording, for example Crescent: \"According to our records on Monday 23 November 2026, the account of Crescent Health Services has 3 open invoices with an outstanding balance of PKR 1,225,500, shown below.\" The 14 single-invoice drafts get: \"...has 1 open invoice with an outstanding balance of PKR {{total}}, shown below.\" Copy each total from the Total row."
+    },
+    {
+      "file": "chase/2026-11-23/emails/airbridge-cargo-services.md",
+      "line": 3,
+      "severity": "low",
+      "problem": "The Preview line says \"Your open invoices\" (plural), but 16 of the 17 customers have only one open invoice. Only Crescent Health Services has more than one. The preheader is wrong for every other draft.",
+      "fix": "In the 16 single-invoice drafts, change the Preview to \"Your open invoice with ITM as of Monday 23 November 2026, and the outstanding balance.\" Keep the plural only in crescent-health-services.md."
+    }
+  ]
+}

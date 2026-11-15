@@ -1,0 +1,39 @@
+{
+  "findings": [
+    {
+      "file": "chase/test-bad/emails/01-bad.md",
+      "line": 11,
+      "severity": "high",
+      "problem": "The amount for KITM20305 is 1,186,000. The sheet says 1,168,000. Two digits have been swapped.",
+      "fix": "Change the amount to 1,168,000, copied exactly from the sheet."
+    },
+    {
+      "file": "chase/test-bad/emails/01-bad.md",
+      "line": 14,
+      "severity": "high",
+      "problem": "Invoice KITM20157 (4 Sep 2026, PKR 238,000) is not in data/weekly/2026-11-23.csv. Crescent Health Services has only three open invoices on the sheet: KITM20305, KITM20401 and KITM20402.",
+      "fix": "Remove the KITM20157 row."
+    },
+    {
+      "file": "chase/test-bad/emails/01-bad.md",
+      "line": 15,
+      "severity": "high",
+      "problem": "The Total row (1,225,500) does not equal the sum of the rows above it. As written, those rows add up to 1,481,500. The rules say the total must equal the sum of the table rows. 1,225,500 is the correct total from the sheet, so the table rows are what is wrong.",
+      "fix": "After fixing KITM20305 and removing KITM20157, run a command to check that the rows add up to 1,225,500. Keep the subject line and the request line at PKR 1,225,500."
+    },
+    {
+      "file": "chase/test-bad/emails/01-bad.md",
+      "line": 19,
+      "severity": "high",
+      "problem": "\"Pay within 24 hours or we will take legal action.\" is a legal threat and an ultimatum. Both brand/voice.md and the reminder rules forbid any mention of legal action. It is also not polite.",
+      "fix": "Delete this line. Line 17 already makes the request."
+    },
+    {
+      "file": "chase/test-bad/emails/01-bad.md",
+      "line": 7,
+      "severity": "medium",
+      "problem": "The opening does not use the required wording for an oldest invoice of 31 to 90 days (KITM20305 is 33 days old). It leaves out the invoice count and the PKR total.",
+      "fix": "Use: \"According to our records on Monday 23 November 2026, the account of Crescent Health Services has 3 open invoices with an outstanding balance of PKR 1,225,500, shown below.\""
+    }
+  ]
+}
