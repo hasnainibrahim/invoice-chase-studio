@@ -4,17 +4,16 @@ Preview: Your open invoices with ITM as of {{as_of}}, and the outstanding balanc
 
 Dear {{title}} {{first_name}},
 
-This is a reminder of the outstanding balance on the account of {{customer}} as of {{as_of}}. The open invoices are listed below.
+{{opening}}
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
 {{invoice_rows}}
 | **Total** | | **{{total}}** | |
 
-Kindly arrange payment of the outstanding balance of PKR {{total}}.
+{{request}}
 
 Payment details: Bank: Example Bank, Account 0000-0000000
-Remittance advice or questions: accounts@itm.example
 
 Should you have any query, please call or email us.
 
@@ -23,4 +22,4 @@ Accounts Team, ITM
 Email: accounts@itm.example
 Phone: +92 21 0000 0000
 
-You're receiving this because {{customer}} has open invoices with ITM.
+This statement is sent to {{customer}} because there are open invoices with ITM.

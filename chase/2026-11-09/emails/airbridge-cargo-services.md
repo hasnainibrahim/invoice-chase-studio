@@ -4,17 +4,16 @@ Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outst
 
 Dear Mr. Tariq,
 
-This is a reminder of the outstanding balance on the account of AirBridge Cargo Services as of Monday 9 November 2026. The open invoices are listed below.
+According to our records on Monday 9 November 2026, the account of AirBridge Cargo Services has the outstanding balance shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
 | KITM19939 | 9 Jun 2026 | 8,900 | 153 |
 | **Total** | | **8,900** | |
 
-Kindly arrange payment of the outstanding balance of PKR 8,900.
+Kindly arrange payment of the outstanding balance of PKR 8,900. Please let us know if you need a copy of the invoice.
 
 Payment details: Bank: Example Bank, Account 0000-0000000
-Remittance advice or questions: accounts@itm.example
 
 Should you have any query, please call or email us.
 
@@ -23,4 +22,4 @@ Accounts Team, ITM
 Email: accounts@itm.example
 Phone: +92 21 0000 0000
 
-You're receiving this because AirBridge Cargo Services has open invoices with ITM.
+This statement is sent to AirBridge Cargo Services because there are open invoices with ITM.

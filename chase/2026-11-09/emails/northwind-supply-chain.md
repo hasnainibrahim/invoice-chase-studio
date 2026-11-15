@@ -4,17 +4,16 @@ Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outst
 
 Dear Mr. Faraz,
 
-This is a reminder of the outstanding balance on the account of Northwind Supply Chain as of Monday 9 November 2026. The open invoices are listed below.
+Please find below a statement of the open invoices on the account of Northwind Supply Chain, according to our records on Monday 9 November 2026.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
 | KITM20298 | 19 Oct 2026 | 76,300 | 21 |
 | **Total** | | **76,300** | |
 
-Kindly arrange payment of the outstanding balance of PKR 76,300.
+Kindly arrange payment of the outstanding balance of PKR 76,300 by its due date.
 
 Payment details: Bank: Example Bank, Account 0000-0000000
-Remittance advice or questions: accounts@itm.example
 
 Should you have any query, please call or email us.
 
@@ -23,4 +22,4 @@ Accounts Team, ITM
 Email: accounts@itm.example
 Phone: +92 21 0000 0000
 
-You're receiving this because Northwind Supply Chain has open invoices with ITM.
+This statement is sent to Northwind Supply Chain because there are open invoices with ITM.

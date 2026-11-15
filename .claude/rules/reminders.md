@@ -15,14 +15,22 @@ Every reminder file starts with these three lines, in this order:
 2. `Subject: ...`. Keep it to 70 characters or fewer.
 3. `Preview: ...`. Keep it to 90 characters or fewer.
 
+The `Preview:` line is the email's preheader. It is never pasted into the body. The send-ready HTML copy puts it in a hidden preheader.
+
 ## Greeting
 
-Greet the contact by title and first name: `Dear {{title}} {{first_name}},`
-
-- `{{title}}` is "Mr." by default, because most of our contacts are men.
-- Use "Madam" for a contact the accounts team confirms is a woman, for example "Dear Madam Sana,".
-- Where the sheet shows "Dr.", write "Doctor" in full, for example "Dear Doctor Salman,".
+- Men: `Dear Mr. {{first_name}},` This is the default, because most of our contacts are men.
+- Women: `Dear Madam,` with no name, for a contact the accounts team confirms is a woman.
+- Where the sheet shows "Dr.": `Dear Doctor {{first_name}},` with "Doctor" written in full.
 - Never guess the title from the name. Each week, before drafting, list every contact and ask the accounts team which ones should not get "Mr.". Do not draft until they answer.
+
+## Opening and request
+
+The sheet has no due dates, so the wording depends on how old the invoices are on the sheet date. Always name the sheet date as the date of our records, for example "according to our records on Monday 9 November 2026".
+
+- **Oldest invoice 30 days or less** (it may not be due yet): send it as a statement. Open with "Please find below a statement of the open invoices on the account of {{customer}}, according to our records on {{as_of}}." Ask: "Kindly arrange payment of the outstanding balance of PKR {{total}} by its due date."
+- **Oldest invoice 31 to 90 days:** open with "According to our records on {{as_of}}, the account of {{customer}} has the outstanding balance shown below." Ask: "Kindly arrange payment of the outstanding balance of PKR {{total}}."
+- **Oldest invoice over 90 days:** use the 31 to 90 day wording, then add "Please let us know if you need a copy of the invoice." (or "invoices" when there is more than one).
 
 ## Invoice table
 
@@ -30,18 +38,20 @@ Greet the contact by title and first name: `Dear {{title}} {{first_name}},`
 - Use exactly these columns, in this order: `Invoice | Date | Amount (PKR) | Days outstanding`
 - End the table with a **Total** row.
 - The total must equal the sum of the rows above it. Work it out with a command, never by hand.
+- The Markdown file is the source. Never paste the Markdown table into an email. Send the HTML copy, which shows a real table.
 
 ## Amounts
 
 - Copy every amount exactly from the sheet. Never round or change one.
 - Write amounts with thousands separators, for example `1,168,000`.
 
-## How to pay or ask a question
+## How to pay
 
-Give one way to pay or ask a question:
+Give the payment details on one line:
 
-- `Payment details: Bank: Example Bank, Account 0000-0000000`. This is practice text. Real bank details go in only at send time, never in the repo.
-- `Remittance advice or questions: accounts@itm.example`
+`Payment details: Bank: Example Bank, Account 0000-0000000`
+
+This is practice text. Real bank details go in only at send time, never in the repo. Questions are covered by the sign-off, so do not add a second email line.
 
 ## Never say
 
@@ -62,6 +72,6 @@ Phone: +92 21 0000 0000
 
 Then add this footer as plain text, not inside a code block:
 
-You're receiving this because {{customer}} has open invoices with ITM.
+This statement is sent to {{customer}} because there are open invoices with ITM.
 
 Do not add an "already paid? ignore this" line or a thank-you line. The voice guide forbids both.

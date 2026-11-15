@@ -8,7 +8,7 @@ The reader should feel **nudged by a professional supplier**: not scolded, and n
 
 **Professional. Respectful. Direct.**
 
-- **Professional:** formal and businesslike. Open with "Dear", a title and the person's first name, for example "Dear Mr. Ahmed,". Use "Mr." by default, "Madam" for a contact the accounts team confirms is a woman, and "Doctor", written in full, where the sheet shows "Dr.". Never guess the title from the name: confirm every contact's title with the accounts team each week before drafting. Never use a casual greeting like "Hi Ahmed".
+- **Professional:** formal and businesslike. Open with "Dear Mr." and the person's first name, for example "Dear Mr. Ahmed,". For a contact the accounts team confirms is a woman, write "Dear Madam," with no name. Where the sheet shows "Dr.", write "Doctor" in full, for example "Dear Doctor Salman,". Never guess the title from the name: confirm every contact's title with the accounts team each week before drafting. Never use a casual greeting like "Hi Ahmed".
 - **Respectful:** polite in every reminder, even the firm ones.
 - **Direct:** say clearly what is outstanding and what we are asking for. Keep it short.
 

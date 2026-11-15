@@ -4,17 +4,16 @@ Preview: Your open invoices with ITM as of Monday 9 November 2026, and the outst
 
 Dear Mr. Mustafa,
 
-This is a reminder of the outstanding balance on the account of Silverline Enterprises as of Monday 9 November 2026. The open invoices are listed below.
+According to our records on Monday 9 November 2026, the account of Silverline Enterprises has the outstanding balance shown below.
 
 | Invoice | Date | Amount (PKR) | Days outstanding |
 |---|---|---|---|
 | KITM19624 | 9 Feb 2026 | 312,000 | 273 |
 | **Total** | | **312,000** | |
 
-Kindly arrange payment of the outstanding balance of PKR 312,000.
+Kindly arrange payment of the outstanding balance of PKR 312,000. Please let us know if you need a copy of the invoice.
 
 Payment details: Bank: Example Bank, Account 0000-0000000
-Remittance advice or questions: accounts@itm.example
 
 Should you have any query, please call or email us.
 
@@ -23,4 +22,4 @@ Accounts Team, ITM
 Email: accounts@itm.example
 Phone: +92 21 0000 0000
 
-You're receiving this because Silverline Enterprises has open invoices with ITM.
+This statement is sent to Silverline Enterprises because there are open invoices with ITM.

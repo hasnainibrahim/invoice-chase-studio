@@ -59,7 +59,9 @@ Oldest first. Each customer has one open invoice this week.
 - **One reminder per customer.** If a customer has more than one open invoice, all of them go in the same email. This week every customer has exactly one.
 - **Each reminder lists:** every open invoice number, its date and its amount in PKR (copied exactly from the CSV), and the customer's total outstanding balance.
 - **One standard tone:** the polite, professional tone in `brand/voice.md`.
-  - Open with a title and first name, for example "Dear Mr. Imran,". The title is "Mr." by default, "Madam" for a contact confirmed as a woman, and "Doctor", written in full, where the sheet shows "Dr.".
+  - Open with "Dear Mr. {first name}," by default, for example "Dear Mr. Imran,". Use "Dear Madam," for a contact confirmed as a woman, and "Dear Doctor {first name}," where the sheet shows "Dr.".
+  - Invoices 30 days old or less may not be due yet, so they go out as a statement that asks for payment "by its due date". Invoices over 90 days old also offer a copy of the invoice. See `.claude/rules/reminders.md`.
+  - Send the HTML copy in `chase/YYYY-MM-DD/html/`, never the Markdown file, so the customer sees a real table.
   - Use "outstanding balance" and "Kindly arrange payment of the outstanding balance."
   - Keep it short and direct.
   - End with the standard ITM sign-off, which includes "Should you have any query, please call or email us."
