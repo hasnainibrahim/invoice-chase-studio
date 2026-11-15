@@ -2,7 +2,7 @@
 // mcp__resend__* call (see .claude/settings.json).
 //
 // - send-email / send-batch-emails: every to, cc and bcc address must end in
-//   @resend.dev or match MY_EMAIL. The subject and body must not contain
+//   @resend.dev or match CHASE_OWNER_EMAIL (the owner's own address). The subject and body must not contain
 //   words that brand/voice.md forbids ("legal action", "late fee", "suspend").
 // - send-broadcast, create-automation, send-inbox-draft, send-new-inbox-email:
 //   always blocked, because they can reach whole lists of people.
@@ -47,7 +47,7 @@ if (!CHECKED_SENDS.has(action)) {
   process.exit(0);
 }
 
-const myEmail = (process.env.MY_EMAIL ?? "").trim().toLowerCase();
+const myEmail = (process.env.CHASE_OWNER_EMAIL ?? "").trim().toLowerCase();
 
 // Pull a bare address out of forms like "Name <a@b.com>".
 function addressOf(value) {
@@ -85,7 +85,7 @@ const notAllowed = recipients.filter(
 );
 if (notAllowed.length > 0) {
   block(
-    `${notAllowed.join(", ")} is not allowed. Send only to @resend.dev test addresses or MY_EMAIL.`,
+    `${notAllowed.join(", ")} is not allowed. Send only to @resend.dev test addresses or the owner's own address (CHASE_OWNER_EMAIL).`,
   );
 }
 

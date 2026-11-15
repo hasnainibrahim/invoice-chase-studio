@@ -24,7 +24,10 @@
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/send-guard.mjs\""
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/send-guard.mjs\"",
+            "timeout": 15,
+            "onFailure": "block",
+            "statusMessage": "Checking the email for threats and wrong recipients..."
           }
         ]
       }

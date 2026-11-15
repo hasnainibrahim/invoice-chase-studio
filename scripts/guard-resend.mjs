@@ -59,9 +59,17 @@ function deny(reason) {
   process.exit(0);
 }
 
-// A broadcast goes to a whole audience, so we cannot check each address. Block it.
-if (/broadcast/i.test(toolName) && /send/i.test(toolName)) {
-  deny("Blocked by the studio guard: broadcasts go to a whole audience and are not allowed. Send to @resend.dev test addresses or the owner's own address only.");
+// These tools can reach a whole audience or list, so we cannot check each
+// address. Block them all.
+const LIST_WIDE_TOOLS = new Set([
+  "send-broadcast",
+  "create-automation",
+  "send-inbox-draft",
+  "send-new-inbox-email",
+]);
+const action = String(toolName).replace(/^mcp__resend__/, "");
+if (LIST_WIDE_TOOLS.has(action) || (/broadcast/i.test(toolName) && /send/i.test(toolName))) {
+  deny(`Blocked by the studio guard: ${action} can reach whole lists of people and is not allowed. Send to @resend.dev test addresses or the owner's own address only.`);
 }
 
 const blocked = collectRecipients(input, []).filter((a) => !isAllowed(a));
